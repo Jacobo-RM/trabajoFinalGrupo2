@@ -8,4 +8,5 @@ import com.gestionCursos.gestionCursos.Models.Curso;
 
 @Repository
 public interface CursoRepository extends JpaRepository<Curso, Integer> {
+    
 }
