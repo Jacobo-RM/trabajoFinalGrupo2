@@ -1,13 +1,17 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
   <header>
     <nav>
-      <RouterLink to="/">Inicio</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <div class="divBandera">
+        <img src="../public/bandera.png" alt="bandera" class="bandera" />
+      </div>
+      <div class="rutas">
+        <RouterLink to="/" class="ruta">Inicio</RouterLink>
+        <RouterLink to="/about" class="ruta">About</RouterLink>
+      </div>
     </nav>
   </header>
 
@@ -16,64 +20,43 @@ import HelloWorld from "./components/HelloWorld.vue";
 
 <style scoped>
 header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+  margin: 0;
+  background-color: #3f9fd6;
+  color: white;
+  padding: 10px;
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  gap: 50px;
+  align-items: center;
+  height: 80px;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.rutas {
+  display: flex;
+  gap: 24px;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.ruta {
+  color: black;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 5px;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.ruta:hover {
+  font-size: 24px;
+  color: blueviolet;
+  text-decoration: underline;
 }
 
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.bandera {
+  width: 80px;
+  height: 50px;
+  border-radius: 1000px;
+  filter: drop-shadow(0 0 0.5rem #000000);
+  margin-left: 15px;
 }
 </style>
