@@ -1,30 +1,6 @@
 
 
 <script>
-import { ref, onMounted } from 'vue';
-import axios from './axios'; // Importa tu instancia de Axios
-import { RouterLink, RouterView } from "vue-router";
-
-export default {
-  setup() {
-    const cursos = ref([]);
-
-    const fetchCursos = async () => {
-      try {
-        const response = await axios.get('/api/cursos/'); // Corregido para coincidir con el endpoint del backend
-        cursos.value = response.data;
-      } catch (error) {
-        console.error('Error fetching cursos:', error);
-      }
-    };
-
-    onMounted(() => {
-      fetchCursos();
-    });
-
-    return { cursos };
-  }
-};
 </script>
 
 <template>
@@ -35,7 +11,7 @@ export default {
       </div>
       <div class="rutas">
         <RouterLink to="/" class="ruta">Inicio</RouterLink>
-        <RouterLink to="/about" class="ruta">About</RouterLink>
+        <RouterLink to="/CourseList" class="ruta">Cursos</RouterLink>
       </div>
       <div>
         <img src="../public/Logo2.png" alt="logo" class="logo" />
@@ -95,6 +71,8 @@ nav {
   height: 65px;
   margin-right: 15px;
 }
+
+</style>
 
 
 

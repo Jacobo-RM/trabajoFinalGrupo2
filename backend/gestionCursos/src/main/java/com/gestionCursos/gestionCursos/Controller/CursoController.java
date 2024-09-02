@@ -18,6 +18,7 @@ import com.gestionCursos.gestionCursos.Service.CursoService;
 @RestController
 @RequestMapping("/cursos")
 @CrossOrigin(origins = "http://localhost:5173") 
+
 public class CursoController {
 
     @Autowired
