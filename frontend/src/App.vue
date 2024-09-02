@@ -12,6 +12,9 @@ import { RouterLink, RouterView } from "vue-router";
         <RouterLink to="/" class="ruta">Inicio</RouterLink>
         <RouterLink to="/about" class="ruta">About</RouterLink>
       </div>
+      <div>
+        <img src="../public/Logo2.png" alt="logo" class="logo" />
+      </div>
     </nav>
   </header>
 
@@ -28,7 +31,7 @@ header {
 
 nav {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 50px;
   align-items: center;
   height: 80px;
@@ -58,5 +61,13 @@ nav {
   border-radius: 1000px;
   filter: drop-shadow(0 0 0.5rem #000000);
   margin-left: 15px;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+  width: 130px;
+  height: 65px;
+  margin-right: 15px;
 }
 </style>
