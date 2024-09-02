@@ -9,7 +9,7 @@ public class Asignatura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(nullable = false, length = 255)
     private String nombre;

@@ -3,13 +3,15 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "curso")
 public class Curso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(nullable = false, length = 255)
     private String nombre;
@@ -28,6 +30,8 @@ public class Curso {
     @Column(nullable = false)
     private Double precio;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asignatura> asignaturas;
 
