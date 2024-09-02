@@ -24,6 +24,68 @@ public class CursoService {
     public List<Curso> getCursos() {
         return cursoRepository.findAll();
     }
+
+    @Transactional (readOnly = true)
+    public Curso getCurso(int id) {
+        return cursoRepository.findById(id).orElse(null);
+    }
+
+    @Transactional (readOnly = true)
+    public List<Asignatura> getAsignaturas(int id) {
+        Curso curso = cursoRepository.findById(id).orElse(null);
+        if (curso != null) {
+            return curso.getAsignaturas();
+        }
+        return null;
+    }
+
+    @Transactional
+    public Curso saveCurso(Curso curso) {
+        return cursoRepository.save(curso);
+    }
+
+
+    @Transactional
+    public Asignatura saveAsignatura(Asignatura asignatura) {
+        return asignaturaRepository.save(asignatura);
+    }
+
+
+    @Transactional
+    public void agregarAsignaturaACurso(int idCurso, Asignatura asignatura) {
+        Curso curso = cursoRepository.findById(idCurso).orElse(null);
+        if (curso != null) {
+            curso.getAsignaturas().add(asignatura);
+            cursoRepository.save(curso);
+        }
+    }
+
+
+    @Transactional
+    public void deleteCurso(int id) {
+        cursoRepository.deleteById(id);
+
+    }
+
+
+    @Transactional
+    public void deleteAsignatura(int id) {
+        asignaturaRepository.deleteById(id);
+    }
+
+
+
+    @Transactional
+    public void eliminarAsignaturaDeCurso(int idCurso, int idAsignatura) {
+        Curso curso = cursoRepository.findById(idCurso).orElse(null);
+        if (curso != null) {
+            curso.getAsignaturas().removeIf(asignatura -> asignatura.getId() == idAsignatura);
+            cursoRepository.save(curso);
+        }
+    }
+
+
+
     
 
 
