@@ -17,7 +17,7 @@ export default {
 
     const fetchCursos = async () => {
       try {
-        const response = await axios.get('/api/cursos/all');
+        const response = await axios.get('/api/cursos/'); // Corregido para coincidir con el endpoint del backend
         cursos.value = response.data;
       } catch (error) {
         console.error('Error fetching cursos:', error);
