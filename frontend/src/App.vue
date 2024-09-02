@@ -1,8 +1,6 @@
-
-
 <script>
-import { ref, onMounted } from 'vue';
-import axios from './axios'; // Importa tu instancia de Axios
+import { ref, onMounted } from "vue";
+import axios from "./axios"; // Importa tu instancia de Axios
 import { RouterLink, RouterView } from "vue-router";
 
 export default {
@@ -11,10 +9,10 @@ export default {
 
     const fetchCursos = async () => {
       try {
-        const response = await axios.get('/api/cursos/'); // Corregido para coincidir con el endpoint del backend
+        const response = await axios.get("/api/cursos/"); // Corregido para coincidir con el endpoint del backend
         cursos.value = response.data;
       } catch (error) {
-        console.error('Error fetching cursos:', error);
+        console.error("Error fetching cursos:", error);
       }
     };
 
@@ -23,7 +21,7 @@ export default {
     });
 
     return { cursos };
-  }
+  },
 };
 </script>
 
@@ -95,6 +93,4 @@ nav {
   height: 65px;
   margin-right: 15px;
 }
-
-
-
+</style>
