@@ -10,17 +10,17 @@ VALUES
 
 
 
-INSERT INTO asignatura (nombre, descripcion, curso_id) 
+INSERT INTO asignatura (id, nombre, descripcion, curso_id) 
 VALUES 
-('Fundamentos de Programación', 'Aprender los fundamentos de la programación en C', 1),
-('Programación Orientada a Objetos', 'Conceptos avanzados de POO con Java', 1),
-('Cálculo Diferencial', 'Estudio de las derivadas y aplicaciones', 2),
-('Álgebra Lineal', 'Estudio de vectores, matrices y espacios vectoriales', 2),
-('Fundamentos del Diseño Gráfico', 'Aprende los conceptos básicos del diseño gráfico', 3),
-('Herramientas de Diseño', 'Uso de herramientas digitales en el diseño gráfico', 3),
-('Estrategias de SEO', 'Optimización para motores de búsqueda', 4), 
-('Publicidad en Redes Sociales', 'Creación y gestión de campañas en redes sociales', 4),
-('Teoría de la Relatividad', 'Estudio de la teoría de la relatividad de Einstein', 5),
-('Mecánica Cuántica', 'Conceptos fundamentales de la mecánica cuántica', 5),
-('Narrativa Creativa', 'Desarrollo de técnicas narrativas para la escritura creativa', 6), 
-('Técnicas de Edición', 'Mejoras en la edición y corrección de textos', 6);
+(1, 'Fundamentos de Programación', 'Aprender los fundamentos de la programación en C', 1),
+(2, 'Programación Orientada a Objetos', 'Conceptos avanzados de POO con Java', 1),
+(3, 'Cálculo Diferencial', 'Estudio de las derivadas y aplicaciones', 2),
+(4, 'Álgebra Lineal', 'Estudio de vectores, matrices y espacios vectoriales', 2),
+(5, 'Fundamentos del Diseño Gráfico', 'Aprende los conceptos básicos del diseño gráfico', 3),
+(6, 'Herramientas de Diseño', 'Uso de herramientas digitales en el diseño gráfico', 3),
+(7, 'Estrategias de SEO', 'Optimización para motores de búsqueda', 4), 
+(8, 'Publicidad en Redes Sociales', 'Creación y gestión de campañas en redes sociales', 4),
+(9, 'Teoría de la Relatividad', 'Estudio de la teoría de la relatividad de Einstein', 5),
+(10, 'Mecánica Cuántica', 'Conceptos fundamentales de la mecánica cuántica', 5),
+(11, 'Narrativa Creativa', 'Desarrollo de técnicas narrativas para la escritura creativa', 6), 
+(12, 'Técnicas de Edición', 'Mejoras en la edición y corrección de textos', 6);

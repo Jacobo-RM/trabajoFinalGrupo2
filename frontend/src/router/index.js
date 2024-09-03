@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/components/Home.vue";
+import CourseList from "@/components/CourseList.vue";
 import SubjetsList from "@/components/SubjetsList.vue";
 import SubjetsForm from "@/components/SubjetsForm.vue";
 
@@ -10,6 +11,12 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: Home,
+    },
+
+    {
+      path: "/CourseList",
+      name: "CourseList",
+      component: CourseList,
     },
     {
       path: '/asignaturas',
