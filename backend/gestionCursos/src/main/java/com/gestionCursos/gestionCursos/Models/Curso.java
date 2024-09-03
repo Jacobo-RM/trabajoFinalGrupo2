@@ -1,4 +1,5 @@
 package com.gestionCursos.gestionCursos.Models;
+
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,8 @@ public class Curso {
     @Column(nullable = false)
     private Double precio;
 
+    @Column(nullable = false)
+    private int anio;
 
     @JsonIgnore
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
