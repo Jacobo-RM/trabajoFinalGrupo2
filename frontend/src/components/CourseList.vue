@@ -1,14 +1,14 @@
 <template>
-  <div class="cursos">
-    <h1>cursos</h1>
+  <div>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Price</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Precio</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -18,19 +18,34 @@
           <td>{{ curso.fechaInicio }}</td>
           <td>{{ curso.fechaFin }}</td>
           <td>{{ curso.precio.toFixed(2) }} €</td>
+          <td>
+            <button @click="showModal(curso.id)">Eliminar</button>
+          </td>
         </tr>
       </tbody>
     </table>
+    <CourseForm @submit="agregarCurso" />
+    
+    <div v-if="modalVisible" class="modal-overlay">
+      <div class="modal">
+        <p>¿Estás seguro de que deseas eliminar este curso?</p>
+        <button @click="deleteCurso(cursoIdBorrar)">Sí, eliminar</button>
+        <button @click="closeModal">Cancelar</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import CourseForm from './CourseForm.vue';
 
 const cursos = ref([]);
+const modalVisible = ref(false);
+const cursoIdBorrar = ref(null);
 
-const fetchcursos = async () => {
+const fetchCursos = async () => {
   try {
     const response = await axios.get('/api/cursos/');
     cursos.value = response.data;
@@ -38,10 +53,42 @@ const fetchcursos = async () => {
     console.error('Error fetching cursos:', error);
   }
 };
+
+const deleteCurso = async (id) => {
+  try {
+    await axios.delete(`/api/cursos/borrarCurso/${id}`);
+    cursos.value = cursos.value.filter(curso => curso.id !== id);
+    closeModal();
+  } catch (error) {
+    console.error('Error deleting curso:', error);
+  }
+};
+
+const showModal = (id) => {
+  cursoIdBorrar.value = id;
+  modalVisible.value = true;
+};
+
+const closeModal = () => {
+  modalVisible.value = false;
+  cursoIdBorrar.value = null;
+};
+
+const agregarCurso = async (nuevoCurso) => {
+  try {
+    const response = await axios.post('/api/cursos/agregarCurso', nuevoCurso);
+    cursos.value.push(response.data);
+  } catch (error) {
+    console.error('Error adding curso:', error);
+  }
+};
+
+
 onMounted(() => {
-  fetchcursos();
+  fetchCursos();
 });
 </script>
+
 
 <style scoped>
 .cursos table {
@@ -54,5 +101,43 @@ onMounted(() => {
 }
 .cursos th {
   background-color: #f4f4f4;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.modal button:first-of-type {
+  background-color: #ff5f5f;
+  color: white;
+}
+
+.modal button:last-of-type {
+  background-color: #ddd;
 }
 </style>
