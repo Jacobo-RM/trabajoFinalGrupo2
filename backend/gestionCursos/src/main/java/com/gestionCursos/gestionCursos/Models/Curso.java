@@ -29,6 +29,9 @@ public class Curso {
     @Column(nullable = false)
     private Double precio;
 
+    @Column(nullable = false)
+    private int anio;
+
     @JsonIgnore
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asignatura> asignaturas = new ArrayList<>();
