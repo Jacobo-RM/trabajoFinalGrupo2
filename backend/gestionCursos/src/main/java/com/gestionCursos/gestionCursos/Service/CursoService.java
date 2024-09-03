@@ -39,6 +39,16 @@ public class CursoService {
         return null;
     }
 
+    @Transactional (readOnly = true)
+    public List<Asignatura> getAsignaturas() {
+        return asignaturaRepository.findAll(); 
+    }
+
+    @Transactional (readOnly = true)
+    public Asignatura getAsignatura(int id) {
+        return asignaturaRepository.findById(id).orElse(null);
+    }
+    
     @Transactional
     public Curso saveCurso(Curso curso) {
         return cursoRepository.save(curso);

@@ -38,6 +38,11 @@ public class CursoController {
         return cursoService.getAsignaturas(id);
     }
 
+    @GetMapping("/asignaturas")
+    public List<Asignatura> getAllAsignaturas() {
+        return cursoService.getAsignaturas(); 
+    }
+
     @PostMapping("/agregarCurso")
     public Curso saveCurso(Curso curso) {
         return cursoService.saveCurso(curso);
