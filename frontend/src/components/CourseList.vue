@@ -8,7 +8,7 @@
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
           <th>Precio</th>
-          <th>Acciones</th>
+          <th>Asignaturas</th>
         </tr>
       </thead>
       <tbody>
@@ -18,6 +18,7 @@
           <td>{{ curso.fechaInicio }}</td>
           <td>{{ curso.fechaFin }}</td>
           <td>{{ curso.precio.toFixed(2) }} €</td>
+          
           <td>
             <button @click="showModal(curso.id)">Eliminar</button>
           </td>
@@ -35,6 +36,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';

@@ -1,11 +1,11 @@
-INSERT INTO curso (id, nombre, descripcion, fecha_inicio, fecha_fin, precio) 
+INSERT INTO curso (nombre, descripcion, fecha_inicio, fecha_fin, precio) 
 VALUES 
-(1, 'Curso de Programación Básica', 'Introducción a los conceptos de programación', '2024-09-15', '2024-12-15', 150.00),
-(2, 'Curso de Matemáticas Avanzadas', 'Estudio avanzado de cálculo y álgebra lineal', '2024-10-01', '2025-01-30', 200.00),
-(3, 'Curso de Diseño Gráfico', 'Aprende los fundamentos del diseño gráfico utilizando herramientas como Photoshop e Illustrator', '2024-09-20', '2024-12-20', 180.00),
-(4, 'Curso de Marketing Digital', 'Estrategias de marketing en internet y redes sociales', '2024-10-05', '2025-01-10', 220.00),
-(5, 'Curso de Física Moderna', 'Introducción a la relatividad y la mecánica cuántica', '2024-11-01', '2025-03-01', 250.00),
-(6, 'Curso de Escritura Creativa', 'Desarrolla tus habilidades para la escritura de ficción y no ficción', '2024-12-01', '2025-03-01', 160.00);
+('Curso de Programación Básica', 'Introducción a los conceptos de programación', '2024-09-15', '2024-12-15', 150.00),
+('Curso de Matemáticas Avanzadas', 'Estudio avanzado de cálculo y álgebra lineal', '2024-10-01', '2025-01-30', 200.00),
+('Curso de Diseño Gráfico', 'Aprende los fundamentos del diseño gráfico utilizando herramientas como Photoshop e Illustrator', '2024-09-20', '2024-12-20', 180.00),
+('Curso de Marketing Digital', 'Estrategias de marketing en internet y redes sociales', '2024-10-05', '2025-01-10', 220.00),
+('Curso de Física Moderna', 'Introducción a la relatividad y la mecánica cuántica', '2024-11-01', '2025-03-01', 250.00),
+('Curso de Escritura Creativa', 'Desarrolla tus habilidades para la escritura de ficción y no ficción', '2024-12-01', '2025-03-01', 160.00);
 
 
 

@@ -1,5 +1,7 @@
 package com.gestionCursos.gestionCursos.Models;
+
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,22 +29,22 @@ public class Curso {
     @Column(nullable = false)
     private Double precio;
 
-
     @JsonIgnore
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Asignatura> asignaturas;
+    private List<Asignatura> asignaturas = new ArrayList<>();
 
 
     public Curso() {
     }
 
-    public Curso(int id, String nombre, String descripcion, String fechaInicio, String fechaFin, Double precio) {
+    public Curso(int id, String nombre, String descripcion, String fechaInicio, String fechaFin, Double precio, List<Asignatura> asignaturas) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.precio = precio;
+        this.asignaturas = asignaturas != null ? asignaturas : new ArrayList<>();
     }
 
     public int getId() {
@@ -101,5 +103,5 @@ public class Curso {
         this.asignaturas = asignaturas;
     }
 
-    
 }
+

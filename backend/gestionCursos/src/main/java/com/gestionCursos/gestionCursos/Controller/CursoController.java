@@ -56,7 +56,7 @@ public class CursoController {
     }
 
     @DeleteMapping("/borrarCurso/{id}")
-    public void deleteCurso(@PathVariable int id) {
+    public void deleteCurso(@PathVariable("id") int id) {
         cursoService.deleteCurso(id);
     }
 

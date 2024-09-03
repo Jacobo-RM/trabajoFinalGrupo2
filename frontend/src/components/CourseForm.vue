@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
           <label for="fecha_fin">Fecha Fin</label>
-          <input type="date" id="fechaFin" v-model="curso.fechaAFin" required>
+          <input type="date" id="fechaFin" v-model="curso.fechaFin" required>
         </div>
         <div class="form-group">
           <label for="precio">Precio</label>
@@ -43,10 +43,8 @@
   const submitForm = () => {
     const { fechaInicio, fechaFin } = curso.value;
   
-    const isValidDate = (dateStr) => !isNaN(new Date(dateStr).getTime());
-    
-    const safeFechaInicio = isValidDate(fechaInicio) ? new Date(fechaInicio).toISOString() : null;
-    const safeFechaFin = isValidDate(fechaFin) ? new Date(fechaFin).toISOString() : null;
+    const safeFechaInicio = fechaInicio ? fechaInicio.toString() : null;
+    const safeFechaFin = fechaFin ? fechaFin.toString() : null;
   
     const cursoData = {
       ...curso.value,
@@ -66,7 +64,6 @@
   };
   </script>
   
-  
   <style scoped>
   .form-group {
     margin-bottom: 15px;
@@ -84,3 +81,4 @@
     cursor: pointer;
   }
   </style>
+  
