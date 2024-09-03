@@ -15,8 +15,8 @@
         <tr v-for="curso in cursos" :key="curso.id">
           <td>{{ curso.nombre }}</td>
           <td>{{ curso.descripcion }}</td>
-          <td>{{ formatDate(curso.fecha_inicio) }}</td>
-          <td>{{ formatDate(curso.fecha_fin) }}</td>
+          <td>{{ curso.fechaInicio }}</td>
+          <td>{{ curso.fechaFin }}</td>
           <td>{{ curso.precio.toFixed(2) }} €</td>
         </tr>
       </tbody>
@@ -38,18 +38,6 @@ const fetchcursos = async () => {
     console.error('Error fetching cursos:', error);
   }
 };
-
-
-
-
-const formatDate = (dateString) => {
-  if (!dateString) return '';
-  const date = new Date(dateString);
-  if (isNaN(date.getTime())) return ''; // Check for invalid date
-  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-};
-
-
 onMounted(() => {
   fetchcursos();
 });

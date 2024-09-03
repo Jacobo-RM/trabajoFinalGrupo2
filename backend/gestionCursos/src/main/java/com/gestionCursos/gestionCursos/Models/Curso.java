@@ -1,6 +1,5 @@
 package com.gestionCursos.gestionCursos.Models;
 import jakarta.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,13 +18,11 @@ public class Curso {
     @Column(nullable = false, length = 255)
     private String descripcion;
 
-    @Column(name = "fechaInicio", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date fechaInicio;
+    @Column(name = "fecha_inicio", nullable = false)
+    private String fechaInicio;
 
-    @Column(name = "fechaFin", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date fechaFin;
+    @Column(name = "fecha_fin", nullable = false)
+    private String fechaFin;
 
     @Column(nullable = false)
     private Double precio;
@@ -35,11 +32,24 @@ public class Curso {
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asignatura> asignaturas;
 
-    public Integer getId() {
+
+    public Curso() {
+    }
+
+    public Curso(int id, String nombre, String descripcion, String fechaInicio, String fechaFin, Double precio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.precio = precio;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,19 +69,19 @@ public class Curso {
         this.descripcion = descripcion;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public String getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -90,4 +100,6 @@ public class Curso {
     public void setAsignaturas(List<Asignatura> asignaturas) {
         this.asignaturas = asignaturas;
     }
+
+    
 }
