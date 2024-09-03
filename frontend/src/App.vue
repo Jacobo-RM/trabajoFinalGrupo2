@@ -28,6 +28,7 @@ onMounted(() => {
       <div class="rutas">
         <RouterLink to="/" class="ruta">Inicio</RouterLink>
         <RouterLink to="/about" class="ruta">About</RouterLink>
+        <RouterLink to="/asignaturas" class="ruta">Asignaturas</RouterLink>
       </div>
       <div>
         <img src="../public/Logo2.png" alt="logo" class="logo" />

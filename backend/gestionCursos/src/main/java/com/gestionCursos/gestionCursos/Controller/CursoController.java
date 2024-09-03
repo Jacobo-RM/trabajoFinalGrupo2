@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,19 +45,30 @@ public class CursoController {
         return cursoService.getAsignaturas(); 
     }
 
+    @GetMapping("/asignaturas/{id}")
+    public Asignatura getAsignatura(@PathVariable int id) {
+        return cursoService.getAsignatura(id);
+    }
+
     @PostMapping("/agregarCurso")
     public Curso saveCurso(Curso curso) {
         return cursoService.saveCurso(curso);
     }
 
     @PostMapping("/agregarAsignatura")
-    public Asignatura saveAsignatura(Asignatura asignatura) {
+    public Asignatura saveAsignatura(@RequestBody Asignatura asignatura) {
         return cursoService.saveAsignatura(asignatura);
     }
 
     @PostMapping("/{idCurso}/agregarAsignatura")
     public void agregarAsignaturaACurso(@PathVariable int idCurso, Asignatura asignatura) {
         cursoService.agregarAsignaturaACurso(idCurso, asignatura);
+    }
+
+    @PutMapping("/asignaturas/{id}")
+    public Asignatura updateAsignatura(@PathVariable int id, @RequestBody Asignatura asignatura) {
+        asignatura.setId(id);
+        return cursoService.updateAsignatura(asignatura);
     }
 
     @DeleteMapping("/borrarCurso/{id}")
