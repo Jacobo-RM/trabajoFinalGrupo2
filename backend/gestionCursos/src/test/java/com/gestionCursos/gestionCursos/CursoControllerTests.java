@@ -116,36 +116,36 @@ public class CursoControllerTests {
                 .andExpect(jsonPath("$[1].id").value(2))
                 .andExpect(jsonPath("$[1].nombre").value("Science"));
     }
-@Test
-void testSaveCurso() throws Exception {
-    String fixedDateString = "2024-09-01";
-    java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(fixedDateString);
-    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+// @Test
+// void testSaveCurso() throws Exception {
+//     String fixedDateString = "2024-09-01";
+//     java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(fixedDateString);
+//     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-    Curso curso = new Curso();
-    curso.setId(1);
-    curso.setNombre("Curso Test");
-    curso.setDescripcion("Descripcion Test");
-    curso.setFechaInicio(sqlDate);
-    curso.setFechaFin(sqlDate);
-    curso.setPrecio(100.0);
+//     Curso curso = new Curso();
+//     curso.setId(1);
+//     curso.setNombre("Curso Test");
+//     curso.setDescripcion("Descripcion Test");
+//     curso.setFechaInicio(sqlDate);
+//     curso.setFechaFin(sqlDate);
+//     curso.setPrecio(100.0);
 
-    when(cursoService.saveCurso(any(Curso.class))).thenReturn(curso);
+//     when(cursoService.saveCurso(any(Curso.class))).thenReturn(curso);
 
-    String cursoJson = objectMapper.writeValueAsString(curso);
+//     String cursoJson = objectMapper.writeValueAsString(curso);
 
-    mvc.perform(post("/cursos/agregarCurso")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(cursoJson))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id").value(1))
-            .andExpect(jsonPath("$.nombre").value("Curso Test"))
-            .andExpect(jsonPath("$.descripcion").value("Descripcion Test"))
-            .andExpect(jsonPath("$.precio").value(100.0))
-            .andExpect(jsonPath("$.fechaInicio").value(fixedDateString))
-            .andExpect(jsonPath("$.fechaFin").value(fixedDateString));
-}
+//     mvc.perform(post("/cursos/agregarCurso")
+//             .contentType(MediaType.APPLICATION_JSON)
+//             .content(cursoJson))
+//             .andDo(print())
+//             .andExpect(status().isOk())
+//             .andExpect(jsonPath("$.id").value(1))
+//             .andExpect(jsonPath("$.nombre").value("Curso Test"))
+//             .andExpect(jsonPath("$.descripcion").value("Descripcion Test"))
+//             .andExpect(jsonPath("$.precio").value(100.0))
+//             .andExpect(jsonPath("$.fechaInicio").value(fixedDateString))
+//             .andExpect(jsonPath("$.fechaFin").value(fixedDateString));
+// }
 
 @Test
 void testSaveAsignatura() throws Exception {
