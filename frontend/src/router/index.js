@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/components/Home.vue";
 import CourseList from "@/components/CourseList.vue";
 import SubjetsList from "@/components/SubjetsList.vue";
+import CoueseForm from "@/components/CourseForm.vue";
 import SubjetsForm from "@/components/SubjetsForm.vue";
 
 const router = createRouter({
@@ -17,6 +18,11 @@ const router = createRouter({
       path: "/CourseList",
       name: "CourseList",
       component: CourseList,
+    },
+    {
+      path: "/CourseForm",
+      name: "CourseForm",
+      component: CoueseForm,
     },
     {
       path: '/asignaturas',
