@@ -8,16 +8,18 @@
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
           <th>Precio</th>
-          <th>Asignaturas</th>
+          <th>Año</th>
+
         </tr>
       </thead>
       <tbody>
         <tr v-for="curso in cursos" :key="curso.id">
           <td>{{ curso.nombre }}</td>
           <td>{{ curso.descripcion }}</td>
-          <td>{{ curso.fechaInicio }}</td>
-          <td>{{ curso.fechaFin }}</td>
+          <td>{{ curso.fecha_inicio }}</td>
+          <td>{{ curso.fecha_fin }}</td>
           <td>{{ curso.precio.toFixed(2) }} €</td>
+          <td>{{ curso.anio }}</td>
           
           <td>
             <button @click="showModal(curso.id)">Eliminar</button>
