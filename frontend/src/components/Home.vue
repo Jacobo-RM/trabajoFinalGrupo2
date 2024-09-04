@@ -2,7 +2,7 @@
 <template>
   <div id="body">
     <div class="welcome-message">
-      <h1>Bienvenido a la gestion de la universidad de CIC</h1>
+      <h1>Bienvenido a la gestión de la universidad de CIC</h1>
       <p>Aqui podrás gestionar los cursos con sus respectivas asignaturas</p>
     </div>
   </div>
