@@ -35,6 +35,7 @@ public class Asignatura {
     @Column(nullable = false)
     private TipoAsignatura tipo;
 
+
     public Asignatura() {
     }
 
@@ -47,6 +48,7 @@ public class Asignatura {
         this.num_horas = num_horas;
         this.tipo = tipo;
     }
+
 
     public Integer getId() {
         return id;
@@ -76,6 +78,9 @@ public class Asignatura {
         return curso;
     }
 
+
+    
+
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
@@ -94,5 +99,17 @@ public class Asignatura {
 
     public void setCreditos(int creditos) {
         this.creditos = creditos;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getNum_horas() {
+        return num_horas;
+    }
+
+    public void setNum_horas(int num_horas) {
+        this.num_horas = num_horas;
     }
 }

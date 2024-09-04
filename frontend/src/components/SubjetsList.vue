@@ -158,15 +158,16 @@
     </div>
     <div v-else>No hay asignaturas disponibles.</div>
 
-    <div v-if="modalVisible" class="modal-overlay">
+       <div v-if="modalVisible" class="modal-overlay">
       <div class="modal-content">
         <button class="close-btn" @click="modalVisible = false">×</button>
         <h2>Detalles</h2>
         <p><strong>Nombre:</strong> {{ selectedAsignatura.nombre }}</p>
-        <p>
-          <strong>Descripción:</strong> {{ selectedAsignatura.descripcion }}
-        </p>
+        <p><strong>Descripción:</strong> {{ selectedAsignatura.descripcion }}</p>
         <p><strong>Curso:</strong> {{ selectedAsignatura.curso.nombre }}</p>
+        <p><strong>Créditos:</strong> {{ selectedAsignatura.creditos }}</p>
+        <p><strong>Número de Horas:</strong> {{ selectedAsignatura.num_horas }}</p>
+        <p><strong>Tipo de Asignatura:</strong> {{ selectedAsignatura.tipo }}</p>
       </div>
     </div>
   </div>
