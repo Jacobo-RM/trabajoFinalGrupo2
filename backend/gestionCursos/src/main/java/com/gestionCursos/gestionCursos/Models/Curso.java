@@ -28,7 +28,7 @@ public class Curso {
     @Column(nullable = false)
     private double precio;
 
-    @Column(nullable = false)
+    @Column(name = "anio", nullable = false)
     private int anio;
 
     @JsonIgnore
