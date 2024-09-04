@@ -1,13 +1,13 @@
 <script>
 import { ref, onMounted } from "vue";
-import axios from "./axios"; // Importa tu instancia de Axios
+import axios from "./axios";
 import { RouterLink, RouterView } from "vue-router";
 
 const cursos = ref([]);
 
 const fetchCursos = async () => {
   try {
-    const response = await axios.get("/api/cursos/"); // Corregido para coincidir con el endpoint del backend
+    const response = await axios.get("/api/cursos/");
     cursos.value = response.data;
   } catch (error) {
     console.error("Error fetching cursos:", error);
@@ -27,7 +27,6 @@ onMounted(() => {
       </div>
       <div class="rutas">
         <RouterLink to="/" class="ruta">Inicio</RouterLink>
-        <RouterLink to="/about" class="ruta">About</RouterLink>
         <RouterLink to="/asignaturas" class="ruta">Asignaturas</RouterLink>
       </div>
       <div>

@@ -28,10 +28,10 @@ public class Curso {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    @Column(nullable = false)
+    @Column(name = "precio", nullable = false)
     private Double precio;
 
-    @Column(nullable = false)
+    @Column(name = "anio", nullable = false)
     private int anio;
 
     @JsonIgnore
@@ -84,6 +84,14 @@ public class Curso {
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
 
     public List<Asignatura> getAsignaturas() {
