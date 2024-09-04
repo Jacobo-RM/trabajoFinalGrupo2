@@ -27,101 +27,127 @@
           </option>
         </select>
       </div>
-      <div class="button-group">
-        <button type="submit">{{ isEditMode ? "Actualizar" : "Crear" }}</button>
-        <button type="button" @click="goToAsignaturas">Volver</button>
+      <div>
+        <label for="creditos">Créditos:</label>
+        <input
+          type="number"
+          id="creditos"
+          v-model="newAsignatura.creditos"
+          required
+        />
       </div>
+      <div>
+        <label for="num_horas">Número de Horas:</label>
+        <input
+          type="number"
+          id="num_horas"
+          v-model="newAsignatura.num_horas"
+          required
+        />
+      </div>
+      <div>
+        <label for="tipo">Tipo de Asignatura:</label>
+        <select id="tipo" v-model="newAsignatura.tipo" required>
+          <option value="OBLIGATORIA">Obligatoria</option>
+          <option value="OPCIONAL">Opcional</option>
+        </select>
+      </div>
+      <button type="submit">{{ isEditMode ? "Actualizar" : "Crear" }}</button>
+      <button type="button" @click="goToAsignaturas">Volver</button>
     </form>
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
 
-export default {
-  setup() {
-    const newAsignatura = ref({
-      id: null,
-      nombre: "",
-      descripcion: "",
-      cursoId: "",
-    });
+const toast = useToast();
 
-    const cursos = ref([]);
-    const isEditMode = ref(false);
-    const route = useRoute();
-    const router = useRouter();
+const newAsignatura = ref({
+  id: null,
+  nombre: "",
+  descripcion: "",
+  cursoId: "",
+  creditos: 0,
+  num_horas: 0,
+  tipo: "OBLIGATORIA",
+});
 
-    const fetchCursos = async () => {
-      try {
-        const response = await axios.get("/api/cursos/");
-        cursos.value = response.data;
-      } catch (error) {
-        console.error("Error fetching cursos:", error);
-      }
-    };
+const cursos = ref([]);
+const isEditMode = ref(false);
+const route = useRoute();
+const router = useRouter();
 
-    const fetchAsignatura = async (id) => {
-      try {
-        const response = await axios.get(`/api/cursos/asignaturas/${id}`);
-        newAsignatura.value = {
-          id: response.data.id,
-          nombre: response.data.nombre,
-          descripcion: response.data.descripcion,
-          cursoId: response.data.curso.id,
-        };
-      } catch (error) {
-        console.error("Error fetching asignatura:", error);
-      }
-    };
-
-    const handleSubmit = async () => {
-      try {
-        if (isEditMode.value) {
-          await axios.put(`/api/cursos/asignaturas/${newAsignatura.value.id}`, {
-            nombre: newAsignatura.value.nombre,
-            descripcion: newAsignatura.value.descripcion,
-            curso: { id: newAsignatura.value.cursoId },
-          });
-          alert("Asignatura actualizada con éxito");
-        } else {
-          await axios.post("/api/cursos/agregarAsignatura", {
-            nombre: newAsignatura.value.nombre,
-            descripcion: newAsignatura.value.descripcion,
-            curso: { id: newAsignatura.value.cursoId },
-          });
-          alert("Asignatura creada con éxito");
-        }
-        router.push("/asignaturas");
-      } catch (error) {
-        console.error("Error saving asignatura:", error);
-      }
-    };
-
-    const goToAsignaturas = () => {
-      router.push("/asignaturas");
-    };
-
-    onMounted(() => {
-      fetchCursos();
-      const id = route.params.id;
-      if (id) {
-        isEditMode.value = true;
-        fetchAsignatura(id);
-      }
-    });
-
-    return {
-      newAsignatura,
-      cursos,
-      handleSubmit,
-      goToAsignaturas,
-      isEditMode,
-    };
-  },
+const fetchCursos = async () => {
+  try {
+    const response = await axios.get("/api/cursos/");
+    cursos.value = response.data;
+  } catch (error) {
+    console.error("Error fetching cursos:", error);
+  }
 };
+
+const fetchAsignatura = async (id) => {
+  try {
+    const response = await axios.get(`/api/cursos/asignaturas/${id}`);
+    newAsignatura.value = {
+      id: response.data.id,
+      nombre: response.data.nombre,
+      descripcion: response.data.descripcion,
+      cursoId: response.data.curso.id,
+      creditos: response.data.creditos,
+      num_horas: response.data.num_horas,
+      tipo: response.data.tipo,
+    };
+  } catch (error) {
+    toast.error("Error fetching asignatura:", error);
+  }
+};
+
+const handleSubmit = async () => {
+  try {
+    if (isEditMode.value) {
+      await axios.put(`/api/cursos/asignaturas/${newAsignatura.value.id}`, {
+        nombre: newAsignatura.value.nombre,
+        descripcion: newAsignatura.value.descripcion,
+        curso: { id: newAsignatura.value.cursoId },
+        creditos: newAsignatura.value.creditos,
+        num_horas: newAsignatura.value.num_horas,
+        tipo: newAsignatura.value.tipo,
+      });
+      toast.success("Asignatura actualizada con éxito");
+    } else {
+      await axios.post("/api/cursos/agregarAsignatura", {
+        nombre: newAsignatura.value.nombre,
+        descripcion: newAsignatura.value.descripcion,
+        curso: { id: newAsignatura.value.cursoId },
+        creditos: newAsignatura.value.creditos,
+        num_horas: newAsignatura.value.num_horas,
+        tipo: newAsignatura.value.tipo,
+      });
+      toast.success("Asignatura creada con éxito");
+    }
+    router.push("/asignaturas");
+  } catch (error) {
+    toast.error("Error saving asignatura:", error);
+  }
+};
+
+const goToAsignaturas = () => {
+  router.push("/asignaturas");
+};
+
+onMounted(() => {
+  fetchCursos();
+  const id = route.params.id;
+  if (id) {
+    isEditMode.value = true;
+    fetchAsignatura(id);
+  }
+});
 </script>
 
 <style scoped>

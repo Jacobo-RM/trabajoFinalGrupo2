@@ -167,79 +167,75 @@
           <strong>Descripción:</strong> {{ selectedAsignatura.descripcion }}
         </p>
         <p><strong>Curso:</strong> {{ selectedAsignatura.curso.nombre }}</p>
+        <p><strong>Créditos:</strong> {{ selectedAsignatura.creditos }}</p>
+        <p>
+          <strong>Número de Horas:</strong> {{ selectedAsignatura.num_horas }}
+        </p>
+        <p>
+          <strong>Tipo de Asignatura:</strong> {{ selectedAsignatura.tipo }}
+        </p>
       </div>
     </div>
   </div>
 </template>
-
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
 
-export default {
-  setup() {
-    const asignaturas = ref([]);
-    const modalVisible = ref(false);
-    const selectedAsignatura = ref(null);
-    const router = useRouter();
+const asignaturas = ref([]);
+const modalVisible = ref(false);
+const selectedAsignatura = ref(null);
+const router = useRouter();
+const toast = useToast();
 
-    const fetchAsignaturas = async () => {
-      try {
-        const response = await axios.get("/api/cursos/asignaturas");
-        asignaturas.value = response.data;
-      } catch (error) {
-        console.error("Error fetching asignaturas:", error);
-      }
-    };
-
-    const deleteAsignatura = async (id) => {
-      try {
-        const confirmed = confirm(
-          "¿Estás seguro de que deseas eliminar esta asignatura?"
-        );
-        if (confirmed) {
-          await axios.delete(`/api/cursos/borrarAsignatura/${id}`);
-          await fetchAsignaturas();
-        }
-      } catch (error) {
-        console.error("Error deleting asignatura:", error);
-      }
-    };
-
-    const confirmDelete = (id) => {
-      deleteAsignatura(id);
-    };
-
-    const showDetails = (asignatura) => {
-      selectedAsignatura.value = asignatura;
-      modalVisible.value = true;
-    };
-
-    const goToCreateAsignatura = () => {
-      router.push("/asignatura-form");
-    };
-
-    const goToEditAsignatura = (id) => {
-      router.push(`/asignatura-form/${id}`);
-    };
-
-    onMounted(() => {
-      fetchAsignaturas();
-      console.log(asignaturas);
-    });
-
-    return {
-      asignaturas,
-      confirmDelete,
-      modalVisible,
-      selectedAsignatura,
-      showDetails,
-      goToCreateAsignatura,
-      goToEditAsignatura,
-    };
-  },
+const fetchAsignaturas = async () => {
+  try {
+    const response = await axios.get("/api/cursos/asignaturas");
+    asignaturas.value = response.data;
+  } catch (error) {
+    console.error("Error fetching asignaturas:", error);
+  }
 };
+
+const deleteAsignatura = async (id) => {
+  try {
+    const confirmed = confirm(
+      "¿Estás seguro de que deseas eliminar esta asignatura?"
+    );
+    if (confirmed) {
+      await axios.delete(`/api/cursos/borrarAsignatura/${id}`);
+      toast.success("Asignatura eliminada con éxito");
+      await fetchAsignaturas();
+    }
+  } catch (error) {
+    toast.error("Error eliminando la asignatura");
+    console.error("Error deleting asignatura:", error);
+  }
+};
+
+const confirmDelete = (id) => {
+  deleteAsignatura(id);
+};
+
+const showDetails = (asignatura) => {
+  selectedAsignatura.value = asignatura;
+  modalVisible.value = true;
+};
+
+const goToCreateAsignatura = () => {
+  router.push("/asignatura-form");
+};
+
+const goToEditAsignatura = (id) => {
+  router.push(`/asignatura-form/${id}`);
+};
+
+onMounted(() => {
+  fetchAsignaturas();
+  console.log(asignaturas);
+});
 </script>
 <style scoped>
 table {
