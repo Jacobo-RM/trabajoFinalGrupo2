@@ -225,16 +225,15 @@ const showDetails = (asignatura) => {
 };
 
 const goToCreateAsignatura = () => {
-  router.push("/asignatura-form");
+  router.push({ path: `/asignatura-form`, query: { cursoEditable: true } });
 };
 
 const goToEditAsignatura = (id) => {
-  router.push(`/asignatura-form/${id}`);
+  router.push({ path: `/asignatura-form/${id}`, query: { cursoEditable: true } });
 };
 
 onMounted(() => {
   fetchAsignaturas();
-  console.log(asignaturas);
 });
 </script>
 <style scoped>

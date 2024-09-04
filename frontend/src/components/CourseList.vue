@@ -23,7 +23,6 @@
           <td>{{ curso.anio }}</td>
           <td>
             <button @click="showModal(curso.id)">Eliminar</button>
-            <button @click="goToEditCurso(curso.id)">Editar</button>
           </td>
         </tr>
       </tbody>
@@ -40,9 +39,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const cursos = ref([]);
 const modalVisible = ref(false);
