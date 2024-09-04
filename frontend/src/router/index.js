@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/components/Home.vue";
 import CourseList from "@/components/CourseList.vue";
 import SubjetsList from "@/components/SubjetsList.vue";
-import CoueseForm from "@/components/CourseForm.vue";
+import CourseForm from "@/components/CourseForm.vue";
 import SubjetsForm from "@/components/SubjetsForm.vue";
 
 const router = createRouter({
@@ -15,32 +15,36 @@ const router = createRouter({
     },
 
     {
-      path: "/CourseList",
+      path: "/course-list",
       name: "CourseList",
       component: CourseList,
     },
     {
-      path: "/CourseForm",
+      path: "/curso-form",
       name: "CourseForm",
-      component: CoueseForm,
+      component: CourseForm,
     },
     {
-      path: '/asignaturas',
-      name: 'asignaturas',
+      path: "/curso-form/:id",
+      name: "EditCourseForm",
+      component: CourseForm,
+    },
+    {
+      path: "/asignaturas",
+      name: "asignaturas",
       component: SubjetsList,
     },
     {
-      path: '/asignatura-form',
-      name: 'asignaturasForm',
+      path: "/asignatura-form",
+      name: "asignaturasForm",
       component: SubjetsForm,
     },
     {
-      path: '/asignatura-form/:id',
-      name: 'asignaturasEditForm',
+      path: "/asignatura-form/:id",
+      name: "asignaturasEditForm",
       component: SubjetsForm,
-      props: true 
+      props: true,
     },
-
   ],
 });
 

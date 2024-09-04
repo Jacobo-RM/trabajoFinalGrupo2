@@ -1,7 +1,6 @@
-<!-- Cursos.vue -->
 <template>
   <div>
-    <h2>Listado de Cursos</h2>
+    <button @click="goToAddCurso">Agregar Curso</button>
     <table>
       <thead>
         <tr>
@@ -24,11 +23,12 @@
           <td>{{ curso.anio }}</td>
           <td>
             <button @click="showModal(curso.id)">Eliminar</button>
+            <button @click="goToEditCurso(curso.id)">Editar</button>
           </td>
         </tr>
       </tbody>
     </table>
-    
+
     <div v-if="modalVisible" class="modal-overlay">
       <div class="modal">
         <p>¿Estás seguro de que deseas eliminar este curso?</p>
@@ -40,29 +40,36 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
 const cursos = ref([]);
 const modalVisible = ref(false);
 const cursoIdBorrar = ref(null);
+const router = useRouter();
 
 const fetchCursos = async () => {
   try {
-    const response = await axios.get('/api/cursos/');
+    const response = await axios.get("/api/cursos/");
     cursos.value = response.data;
   } catch (error) {
-    console.error('Error fetching cursos:', error);
+    console.error("Error fetching cursos:", error);
   }
 };
 
 const deleteCurso = async (id) => {
   try {
-    await axios.delete(`/api/cursos/borrarCurso/${id}`);
-    cursos.value = cursos.value.filter(curso => curso.id !== id);
-    closeModal();
+    const confirmed = confirm(
+      "¿Estás seguro de que deseas eliminar este curso?"
+    );
+    if (confirmed) {
+      await axios.delete(`/api/cursos/borrarCurso/${id}`);
+      cursos.value = cursos.value.filter((curso) => curso.id !== id);
+      closeModal();
+    }
   } catch (error) {
-    console.error('Error deleting curso:', error);
+    console.error("Error deleting curso:", error);
   }
 };
 
@@ -76,6 +83,14 @@ const closeModal = () => {
   cursoIdBorrar.value = null;
 };
 
+const goToEditCurso = (id) => {
+  router.push(`/curso-form/${id}`);
+};
+
+const goToAddCurso = () => {
+  router.push("/curso-form");
+};
+
 onMounted(() => {
   fetchCursos();
 });
@@ -87,7 +102,8 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
 }
