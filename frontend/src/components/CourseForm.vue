@@ -32,9 +32,8 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
-
-const emit = defineEmits(['submit']);
+import { ref } from 'vue';
+import axios from 'axios';
 
 const curso = ref({
   nombre: '',
@@ -45,20 +44,17 @@ const curso = ref({
   anio: ''
 });
 
-const submitForm = () => {
-  const { fecha_inicio, fecha_fin } = curso.value;
+const submitForm = async () => {
+  try {
+    await axios.post('/api/cursos/agregarCurso', curso.value);
+    alert('Curso agregado exitosamente');
+    resetForm();
+  } catch (error) {
+    console.error('Error adding curso:', error);
+  }
+};
 
-  const safeFechaInicio = fecha_inicio ? fecha_inicio.toString() : null;
-  const saveFechaFin = fecha_fin ? fecha_fin.toString() : null;
-
-  const cursoData = {
-    ...curso.value,
-    fecha_inicio: safeFechaInicio,
-    fecha_fin: saveFechaFin
-  };
-
-  emit('submit', cursoData);
-
+const resetForm = () => {
   curso.value = {
     nombre: '',
     descripcion: '',

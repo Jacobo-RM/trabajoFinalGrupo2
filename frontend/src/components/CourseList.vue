@@ -1,5 +1,7 @@
+<!-- Cursos.vue -->
 <template>
   <div>
+    <h2>Listado de Cursos</h2>
     <table>
       <thead>
         <tr>
@@ -9,7 +11,7 @@
           <th>Fecha Fin</th>
           <th>Precio</th>
           <th>Año</th>
-
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -20,14 +22,12 @@
           <td>{{ curso.fecha_fin }}</td>
           <td>{{ curso.precio.toFixed(2) }} €</td>
           <td>{{ curso.anio }}</td>
-          
           <td>
             <button @click="showModal(curso.id)">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <CourseForm @submit="agregarCurso" />
     
     <div v-if="modalVisible" class="modal-overlay">
       <div class="modal">
@@ -39,11 +39,9 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import CourseForm from './CourseForm.vue';
 
 const cursos = ref([]);
 const modalVisible = ref(false);
@@ -78,32 +76,22 @@ const closeModal = () => {
   cursoIdBorrar.value = null;
 };
 
-const agregarCurso = async (nuevoCurso) => {
-  try {
-    const response = await axios.post('/api/cursos/agregarCurso', nuevoCurso);
-    cursos.value.push(response.data);
-  } catch (error) {
-    console.error('Error adding curso:', error);
-  }
-};
-
-
 onMounted(() => {
   fetchCursos();
 });
 </script>
 
-
 <style scoped>
-.cursos table {
+/* Estilos para el componente de cursos */
+table {
   width: 100%;
   border-collapse: collapse;
 }
-.cursos th, .cursos td {
+th, td {
   border: 1px solid #ddd;
   padding: 8px;
 }
-.cursos th {
+th {
   background-color: #f4f4f4;
 }
 
