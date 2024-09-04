@@ -95,4 +95,12 @@ public class Asignatura {
     public void setCreditos(int creditos) {
         this.creditos = creditos;
     }
+
+    public int getNum_horas() {
+        return num_horas;
+    }
+
+    public void setNum_horas(int num_horas) {
+        this.num_horas = num_horas;
+    }
 }

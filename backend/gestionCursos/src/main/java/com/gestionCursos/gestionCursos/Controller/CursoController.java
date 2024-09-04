@@ -67,7 +67,7 @@ public class CursoController {
         cursoService.agregarAsignaturaACurso(idCurso, asignatura);
     }
 
-    @PutMapping("/asignaturas/{id}")
+    @PutMapping("/actualizarAsignatura/{id}")
     public Asignatura updateAsignatura(@PathVariable int id, @RequestBody Asignatura asignatura) {
         asignatura.setId(id);
         return cursoService.updateAsignatura(asignatura);

@@ -1,4 +1,3 @@
-<!-- Cursos.vue -->
 <template>
   <div>
     <h2>Listado de Cursos</h2>
@@ -82,7 +81,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Estilos para el componente de cursos */
 table {
   width: 100%;
   border-collapse: collapse;
