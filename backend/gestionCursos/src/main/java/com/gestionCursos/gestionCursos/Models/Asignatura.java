@@ -35,6 +35,19 @@ public class Asignatura {
     @Column(nullable = false)
     private TipoAsignatura tipo;
 
+    public Asignatura() {
+    }
+
+    public Asignatura(int id, String nombre, String descripcion, Curso curso, int creditos, int num_horas, TipoAsignatura tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.curso = curso;
+        this.creditos = creditos;
+        this.num_horas = num_horas;
+        this.tipo = tipo;
+    }
+
     public Integer getId() {
         return id;
     }
