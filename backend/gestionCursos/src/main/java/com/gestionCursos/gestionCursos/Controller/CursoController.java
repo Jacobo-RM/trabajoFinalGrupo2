@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import com.gestionCursos.gestionCursos.Service.CursoService;
 @RestController
 @RequestMapping("/cursos")
 @CrossOrigin(origins = "http://localhost:5173") 
+
 public class CursoController {
 
     @Autowired
@@ -42,7 +44,7 @@ public class CursoController {
 
     @GetMapping("/asignaturas")
     public List<Asignatura> getAllAsignaturas() {
-        return cursoService.getAsignaturas(); 
+        return cursoService.getAsignaturas (); 
     }
 
     @GetMapping("/asignaturas/{id}")
@@ -51,7 +53,7 @@ public class CursoController {
     }
 
     @PostMapping("/agregarCurso")
-    public Curso saveCurso(Curso curso) {
+    public Curso saveCurso(@RequestBody Curso curso) {
         return cursoService.saveCurso(curso);
     }
 
@@ -72,7 +74,7 @@ public class CursoController {
     }
 
     @DeleteMapping("/borrarCurso/{id}")
-    public void deleteCurso(@PathVariable int id) {
+    public void deleteCurso(@PathVariable("id") int id) {
         cursoService.deleteCurso(id);
     }
 

@@ -1,4 +1,5 @@
 <script>
+
 import { ref, onMounted } from "vue";
 import axios from "./axios";
 import { RouterLink, RouterView } from "vue-router";
@@ -27,6 +28,7 @@ onMounted(() => {
       </div>
       <div class="rutas">
         <RouterLink to="/" class="ruta">Inicio</RouterLink>
+        <RouterLink to="/CourseList" class="ruta">Cursos</RouterLink>
         <RouterLink to="/asignaturas" class="ruta">Asignaturas</RouterLink>
       </div>
       <div>
@@ -87,4 +89,6 @@ nav {
   height: 65px;
   margin-right: 15px;
 }
+
 </style>
+
