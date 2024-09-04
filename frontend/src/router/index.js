@@ -4,6 +4,8 @@ import CourseList from "@/components/CourseList.vue";
 import SubjetsList from "@/components/SubjetsList.vue";
 import CoueseForm from "@/components/CourseForm.vue";
 import SubjetsForm from "@/components/SubjetsForm.vue";
+import CourseDetails from "@/components/CourseDetails.vue";
+import CourseForm from "@/components/CourseForm.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +24,13 @@ const router = createRouter({
     {
       path: "/CourseForm",
       name: "CourseForm",
-      component: CoueseForm,
+      component: CourseForm,
+    },
+    {
+      path: '/curso/:id',
+      name: 'CourseDetails',
+      component: CourseDetails,
+      props: true,
     },
     {
       path: '/asignaturas',

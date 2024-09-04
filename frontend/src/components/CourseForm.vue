@@ -32,8 +32,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 
 const curso = ref({
   nombre: '',
@@ -44,13 +45,30 @@ const curso = ref({
   anio: ''
 });
 
+const route = useRoute();
+const isEditMode = ref(false);
+
+const fetchCurso = async (id) => {
+  try {
+    const response = await axios.get(`/api/cursos/${id}`);
+    curso.value = response.data;
+  } catch (error) {
+    console.error('Error fetching curso:', error);
+  }
+};
+
 const submitForm = async () => {
   try {
-    await axios.post('/api/cursos/agregarCurso', curso.value);
-    alert('Curso agregado exitosamente');
+    if (isEditMode.value) {
+      await axios.put(`/api/cursos/${curso.value.id}`, curso.value);
+      alert('Curso actualizado exitosamente');
+    } else {
+      await axios.post('/api/cursos/agregarCurso', curso.value);
+      alert('Curso agregado exitosamente');
+    }
     resetForm();
   } catch (error) {
-    console.error('Error adding curso:', error);
+    console.error('Error saving curso:', error);
   }
 };
 
@@ -64,7 +82,16 @@ const resetForm = () => {
     anio: ''
   };
 };
+
+onMounted(() => {
+  const cursoId = route.query.cursoId;
+  if (cursoId) {
+    isEditMode.value = true;
+    fetchCurso(cursoId);
+  }
+});
 </script>
+
 
 <style scoped>
 .form-group {

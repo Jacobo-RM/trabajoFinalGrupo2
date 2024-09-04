@@ -12,7 +12,7 @@
       </div>
       <div>
         <label for="curso">Curso:</label>
-        <select id="curso" v-model="newAsignatura.cursoId" required>
+        <select id="curso" v-model="newAsignatura.cursoId" :disabled="isSelectDisabled" required>
           <option value="" disabled>Seleccione un curso</option>
           <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
             {{ curso.nombre }}
@@ -41,106 +41,101 @@
   </div>
 </template>
 
-<script>
-
+<script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 
-export default {
-  setup() {
-    const newAsignatura = ref({
-      id: null,
-      nombre: '',
-      descripcion: '',
-      cursoId: '',
-      creditos: 0,
-      num_horas: 0,
-      tipo: 'OBLIGATORIA'  // Valor por defecto
+const newAsignatura = ref({
+  id: null,
+  nombre: '',
+  descripcion: '',
+  cursoId: '',
+  creditos: 0,
+  num_horas: 0,
+  tipo: 'OBLIGATORIA'
+});
 
-    });
+const cursos = ref([]);
+const isEditMode = ref(false);
+const isSelectDisabled = ref(false); // Nueva variable para manejar el estado del select
+const route = useRoute();
+const router = useRouter();
 
-    const cursos = ref([]);
-    const isEditMode = ref(false);
-    const route = useRoute();
-    const router = useRouter();
-
-    const fetchCursos = async () => {
-      try {
-        const response = await axios.get('/api/cursos/');
-
-        cursos.value = response.data;
-      } catch (error) {
-        console.error("Error fetching cursos:", error);
-      }
-    };
-
-    const fetchAsignatura = async (id) => {
-      try {
-        const response = await axios.get(`/api/cursos/asignaturas/${id}`);
-        newAsignatura.value = {
-          id: response.data.id,
-          nombre: response.data.nombre,
-          descripcion: response.data.descripcion,
-          cursoId: response.data.curso.id,
-          creditos: response.data.creditos,
-          num_horas: response.data.num_horas,
-          tipo: response.data.tipo
-
-        };
-      } catch (error) {
-        console.error("Error fetching asignatura:", error);
-      }
-    };
-
-    const handleSubmit = async () => {
-      try {
-        const asignaturaData = {
-          nombre: newAsignatura.value.nombre,
-          descripcion: newAsignatura.value.descripcion,
-          curso: { id: newAsignatura.value.cursoId },
-          creditos: newAsignatura.value.creditos,
-          num_horas: newAsignatura.value.num_horas,
-          tipo: newAsignatura.value.tipo
-        };
-
-        if (isEditMode.value) {
-          await axios.put(`/api/cursos/asignaturas/${newAsignatura.value.id}`, asignaturaData);
-          alert('Asignatura actualizada con éxito');
-        } else {
-          await axios.post('/api/cursos/agregarAsignatura', asignaturaData);
-          alert('Asignatura creada con éxito');
-        }
-        router.push('/asignaturas');
-      } catch (error) {
-        console.error("Error saving asignatura:", error);
-      }
-    };
-
-    const goToAsignaturas = () => {
-      router.push('/asignaturas');
-    };
-
-    onMounted(() => {
-      fetchCursos();
-      const id = route.params.id;
-      if (id) {
-        isEditMode.value = true;
-        fetchAsignatura(id);
-      }
-    });
-
-    return {
-      newAsignatura,
-      cursos,
-      handleSubmit,
-      goToAsignaturas,
-
-      isEditMode,
-    };
-  },
+const fetchCursos = async () => {
+  try {
+    const response = await axios.get('/api/cursos/');
+    cursos.value = response.data;
+  } catch (error) {
+    console.error("Error fetching cursos:", error);
+  }
 };
+
+const fetchAsignatura = async (id) => {
+  try {
+    const response = await axios.get(`/api/cursos/asignaturas/${id}`);
+    newAsignatura.value = {
+      id: response.data.id,
+      nombre: response.data.nombre,
+      descripcion: response.data.descripcion,
+      cursoId: response.data.curso.id,
+      creditos: response.data.creditos,
+      num_horas: response.data.num_horas,
+      tipo: response.data.tipo
+    };
+  } catch (error) {
+    console.error("Error fetching asignatura:", error);
+  }
+};
+
+const handleSubmit = async () => {
+  try {
+    const asignaturaData = {
+      nombre: newAsignatura.value.nombre,
+      descripcion: newAsignatura.value.descripcion,
+      curso: { id: newAsignatura.value.cursoId },
+      creditos: newAsignatura.value.creditos,
+      num_horas: newAsignatura.value.num_horas,
+      tipo: newAsignatura.value.tipo
+    };
+
+    if (isEditMode.value) {
+      await axios.put(`/api/cursos/asignaturas/${newAsignatura.value.id}`, asignaturaData);
+      alert('Asignatura actualizada con éxito');
+    } else {
+      await axios.post('/api/cursos/agregarAsignatura', asignaturaData);
+      alert('Asignatura creada con éxito');
+    }
+    router.back();
+  } catch (error) {
+    console.error("Error saving asignatura:", error);
+  }
+};
+
+const goToAsignaturas = () => {
+  router.back();
+};
+
+onMounted(() => {
+  fetchCursos();
+  const id = route.params.id;
+  const cursoId = route.query.cursoId;
+  const cursoEditable = route.query.cursoEditable === 'true'; // Leer el parámetro cursoEditable
+
+  if (id) {
+    isEditMode.value = true;
+    fetchAsignatura(id);
+    isSelectDisabled.value = !cursoEditable; // Ajustar el estado del select basado en el parámetro
+  } else {
+    isEditMode.value = false;
+    isSelectDisabled.value = !cursoEditable; // Ajustar el estado del select basado en el parámetro
+    if (cursoId) {
+      newAsignatura.value.cursoId = cursoId;
+    }
+  }
+});
 </script>
+
 
 <style scoped>
 .addForm {
