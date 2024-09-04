@@ -42,7 +42,7 @@ public class CursoController {
 
     @GetMapping("/asignaturas")
     public List<Asignatura> getAllAsignaturas() {
-        return cursoService.getAsignaturas(); 
+        return cursoService.getAsignaturas (); 
     }
 
     @GetMapping("/asignaturas/{id}")
