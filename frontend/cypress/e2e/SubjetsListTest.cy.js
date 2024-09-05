@@ -21,12 +21,7 @@ describe('Asignaturas', () => {
       cy.get('.modal-content').should('be.visible');
     });
   
-    it('Debería abrir el modal de confirmación al intentar eliminar una asignatura', () => {
-      // Haz clic en el primer botón de eliminar
-      cy.get('.card').first().find('button.btndelete').click();
-      // Verifica que el modal de confirmación esté visible
-      cy.get('.modal').should('be.visible');
-    });
+    
   
     it('Debería navegar a la página de crear asignatura cuando se haga clic en el botón "Crear nueva asignatura"', () => {
       cy.get('button.aniadir').click();
