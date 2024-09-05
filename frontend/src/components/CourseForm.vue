@@ -75,13 +75,13 @@ const fetchCurso = async (id) => {
 const submitForm = async () => {
   try {
     if (isEditMode.value) {
-      await axios.put(`/api/cursos/${curso.value.id}`, curso.value);
+      await axios.put(`/api/cursos/actualizarCurso/${curso.value.id}`, curso.value);
       toast.success("Curso actualizado exitosamente");
     } else {
       await axios.post('/api/cursos/agregarCurso', curso.value);
       toast.success("Curso agregado exitosamente");
     }
-    resetForm();
+    goToCursos();
   } catch (error) {
     console.error('Error saving curso:', error);
   }
@@ -93,12 +93,13 @@ const goToCursos = () => {
 };
 
 onMounted(() => {
-  const cursoId = route.query.cursoId;
+  const cursoId = route.params.id;
   if (cursoId) {
     isEditMode.value = true;
     fetchCurso(cursoId);
   }
 });
+
 </script>
 
 

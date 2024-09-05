@@ -120,7 +120,7 @@ const handleSubmit = async () => {
     };
 
     if (isEditMode.value) {
-      await axios.put(`/api/cursos/asignaturas/${newAsignatura.value.id}`, asignaturaData);
+      await axios.put(`/api/cursos/actualizarAsignatura/${newAsignatura.value.id}`, asignaturaData);
       toast.success("Asignatura actualizada con éxito");
     } else {
       await axios.post('/api/cursos/agregarAsignatura', asignaturaData);

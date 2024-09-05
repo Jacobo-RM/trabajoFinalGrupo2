@@ -102,7 +102,7 @@
   };
   
   const goBack = () => {
-    router.push('/CourseList'); 
+    router.push('/course-list'); 
   };
   
   const goToCreateAsignatura = () => {

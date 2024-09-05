@@ -31,6 +31,18 @@ const router = createRouter({
       component: SubjetsList,
     },
     {
+      path: "/curso-form/:id",
+      name: "EditCourseForm",
+      component: CourseForm,
+    },
+    {
+      path: '/curso/:id',
+      name: 'CourseDetails',
+      component: CourseDetails,
+      props: true,
+
+    },
+    {
       path: "/asignatura-form",
       name: "asignaturasForm",
       component: SubjetsForm,

@@ -23,6 +23,10 @@
           <td>{{ curso.anio }}</td>
           <td>
             <button @click="showModal(curso.id)">Eliminar</button>
+            <button @click="goToEditCurso(curso.id)">Editar</button>
+            <router-link :to="{ name: 'CourseDetails', params: { id: curso.id } }">
+              <button>Ver Detalles</button>
+            </router-link>
           </td>
         </tr>
       </tbody>
@@ -40,6 +44,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import {useRouter } from "vue-router";
 import axios from 'axios';
 
 const cursos = ref([]);
