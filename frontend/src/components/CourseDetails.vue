@@ -65,8 +65,10 @@
       <div class="course-details">
         <p><strong>Nombre:</strong> {{ curso.nombre }}</p>
         <p><strong>Descripción:</strong> {{ curso.descripcion }}</p>
-        <p><strong>Fecha Inicio:</strong> {{ curso.fecha_inicio }}</p>
-        <p><strong>Fecha Fin:</strong> {{ curso.fecha_fin }}</p>
+        <p>
+          <strong>Fecha Inicio:</strong> {{ formatDate(curso.fecha_inicio) }}
+        </p>
+        <p><strong>Fecha Fin:</strong> {{ formatDate(curso.fecha_fin) }}</p>
         <p><strong>Precio:</strong> {{ curso.precio.toFixed(2) }} €</p>
         <p><strong>Año:</strong> {{ curso.anio }}</p>
       </div>
@@ -282,6 +284,11 @@ const confirmDelete = async (id) => {
 const showDetails = (asignatura) => {
   selectedAsignatura.value = asignatura;
   modalVisible.value = true;
+};
+
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(dateString).toLocaleDateString("es-ES", options);
 };
 
 onMounted(() => {
