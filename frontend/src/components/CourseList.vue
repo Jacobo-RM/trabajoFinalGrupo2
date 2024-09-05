@@ -86,10 +86,12 @@
 
     <div v-if="modalVisible" class="modal-overlay">
       <div class="modal-content">
-        <button class="close-btn" @click="closeModal">×</button>
+        <button class="close-btn" @click="cancelDelete">×</button>
         <p>¿Estás seguro de que deseas eliminar este curso?</p>
-        <button @click="deleteCurso(cursoIdBorrar)">Sí, eliminar</button>
-        <button @click="closeModal">Cancelar</button>
+        <button @click="deleteCurso(cursoIdBorrar)" class="modal-button">
+          Sí, eliminar
+        </button>
+        <button @click="cancelDelete" class="modal-button">Cancelar</button>
       </div>
     </div>
   </div>
@@ -159,6 +161,11 @@ const closeModal = () => {
   cursoIdBorrar.value = null;
 };
 
+const cancelDelete = () => {
+  closeModal();
+  location.reload();
+};
+
 const goToEditCurso = (id) => {
   router.push(`/curso-form/${id}`);
 };
@@ -171,7 +178,6 @@ onMounted(() => {
   fetchCursos();
 });
 </script>
-
 <style scoped>
 table {
   width: 100%;
@@ -283,7 +289,7 @@ input[type=text] {
 }
 
 .aniadir {
-  background-color: #4caf50;
+  background-color: #007bff;
   display: flex;
   align-items: center;
   color: white;
@@ -420,5 +426,34 @@ input[type=text] {
   color: white;
   font-size: 20px;
   cursor: pointer;
+}
+
+.modal-button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.modal-button {
+  background-color: #ff5f5f;
+  color: white;
+}
+
+.modal-button:hover {
+  background-color: #ff1a1a;
+  transform: scale(1.05);
+}
+
+.modal-button:last-of-type {
+  background-color: #ddd;
+  color: black;
+}
+
+.modal-button:last-of-type:hover {
+  background-color: #ccc;
 }
 </style>
