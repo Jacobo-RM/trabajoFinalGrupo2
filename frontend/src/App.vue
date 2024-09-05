@@ -44,7 +44,7 @@ header {
   margin: 0;
   background-color: #3f9fd6;
   color: white;
-  padding: 10px;
+  padding: 8px;
 }
 
 nav {
@@ -74,11 +74,8 @@ nav {
 }
 
 .bandera {
-  width: 80px;
-  height: 50px;
-  border-radius: 1000px;
-  filter: drop-shadow(0 0 0.5rem #000000);
-  margin-left: 15px;
+  width: 195px;
+  height: 80px;
 }
 
 .logo {
