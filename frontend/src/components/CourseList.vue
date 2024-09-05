@@ -33,7 +33,7 @@
 
     <div v-if="filteredCursos.length"  class="cards-container">
       <div v-for="curso in filteredCursos" :key="curso.id" class="card">
-        <img src="../../public/CICHD2.png" alt="Imagen del curso" class="card-img-top" />
+        <img src="../../public/cursosLogo.png" alt="Imagen del curso" class="card-img-top" />
         <div class="card-body">
           <p class="card-title">{{ curso.nombre }}</p>
           <p class="card-text">{{ curso.descripcion }}</p>
