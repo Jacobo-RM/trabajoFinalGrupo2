@@ -1,7 +1,9 @@
 <template>
   <div class="addForm">
     <form @submit.prevent="submitForm">
-      <h2>Creación de curso</h2>
+      <h2>
+        {{ isEditMode ? "Actualizar curso" : "Creación de curso" }}
+      </h2>
       <div>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" v-model="curso.nombre" required />

@@ -64,7 +64,7 @@ nav {
 }
 
 .main-content {
-  margin-top: 65px;
+  margin-top: 70px;
 }
 
 .rutas {
