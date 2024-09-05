@@ -46,11 +46,13 @@
 import { ref, onMounted } from 'vue';
 import {useRouter } from "vue-router";
 import axios from 'axios';
+import { useToast } from "vue-toast-notification";
 
 const cursos = ref([]);
 const modalVisible = ref(false);
 const cursoIdBorrar = ref(null);
 const router = useRouter();
+const toast = useToast();
 
 const fetchCursos = async () => {
   try {
@@ -63,16 +65,15 @@ const fetchCursos = async () => {
 
 const deleteCurso = async (id) => {
   try {
-    const confirmed = confirm(
-      "¿Estás seguro de que deseas eliminar este curso?"
-    );
-    if (confirmed) {
+   
+    
       await axios.delete(`/api/cursos/borrarCurso/${id}`);
       cursos.value = cursos.value.filter((curso) => curso.id !== id);
       closeModal();
-    }
+      toast.success("Curso eliminado exitosamente");
+
   } catch (error) {
-    console.error("Error deleting curso:", error);
+      toast.error("Error borrando el curso");
   }
 };
 
