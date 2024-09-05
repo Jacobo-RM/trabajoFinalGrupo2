@@ -20,7 +20,7 @@ import com.gestionCursos.gestionCursos.Service.CursoService;
 
 @RestController
 @RequestMapping("/cursos")
-@CrossOrigin(origins = "http://localhost:5173") 
+@CrossOrigin(origins = "http://localhost:5173")
 
 public class CursoController {
 
@@ -44,7 +44,7 @@ public class CursoController {
 
     @GetMapping("/asignaturas")
     public List<Asignatura> getAllAsignaturas() {
-        return cursoService.getAsignaturas (); 
+        return cursoService.getAsignaturas();
     }
 
     @GetMapping("/asignaturas/{id}")
@@ -67,10 +67,16 @@ public class CursoController {
         cursoService.agregarAsignaturaACurso(idCurso, asignatura);
     }
 
-    @PutMapping("/asignaturas/{id}")
+    @PutMapping("/actualizarAsignatura/{id}")
     public Asignatura updateAsignatura(@PathVariable int id, @RequestBody Asignatura asignatura) {
         asignatura.setId(id);
         return cursoService.updateAsignatura(asignatura);
+    }
+
+    @PutMapping("/actualizarCurso/{id}")
+    public Curso updateCurso(@PathVariable int id, @RequestBody Curso curso) {
+        curso.setId(id);
+        return cursoService.updateCurso(curso);
     }
 
     @DeleteMapping("/borrarCurso/{id}")

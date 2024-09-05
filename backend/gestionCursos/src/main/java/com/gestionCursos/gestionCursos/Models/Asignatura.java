@@ -79,8 +79,6 @@ public class Asignatura {
     }
 
 
-    
-
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
@@ -99,10 +97,6 @@ public class Asignatura {
 
     public void setCreditos(int creditos) {
         this.creditos = creditos;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getNum_horas() {

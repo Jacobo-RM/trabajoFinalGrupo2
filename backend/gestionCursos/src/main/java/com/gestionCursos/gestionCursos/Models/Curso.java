@@ -38,7 +38,8 @@ public class Curso {
     public Curso() {
     }
 
-    public Curso(int id, String nombre, String descripcion, String fecha_inicio, String fecha_fin, double precio, int anio, List<Asignatura> asignaturas) {
+    public Curso(int id, String nombre, String descripcion, String fecha_inicio, String fecha_fin, double precio,
+            int anio, List<Asignatura> asignaturas) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -112,4 +113,5 @@ public class Curso {
     public void setAsignaturas(List<Asignatura> asignaturas) {
         this.asignaturas = asignaturas;
     }
+
 }

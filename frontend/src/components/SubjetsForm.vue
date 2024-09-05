@@ -1,6 +1,9 @@
 <template>
   <div class="addForm">
     <form @submit.prevent="handleSubmit">
+      <h2>
+        {{ isEditMode ? "Actualizar de asignatura" : "Creación de asignatura" }}
+      </h2>
       <div>
         <label for="nombre">Nombre:</label>
         <input
@@ -20,7 +23,12 @@
       </div>
       <div>
         <label for="curso">Curso:</label>
-        <select id="curso" v-model="newAsignatura.cursoId" required>
+        <select
+          id="curso"
+          v-model="newAsignatura.cursoId"
+          :disabled="isSelectDisabled"
+          required
+        >
           <option value="" disabled>Seleccione un curso</option>
           <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
             {{ curso.nombre }}
@@ -78,6 +86,7 @@ const newAsignatura = ref({
 
 const cursos = ref([]);
 const isEditMode = ref(false);
+const isSelectDisabled = ref(false); // Nueva variable para manejar el estado del select
 const route = useRoute();
 const router = useRouter();
 
@@ -109,43 +118,51 @@ const fetchAsignatura = async (id) => {
 
 const handleSubmit = async () => {
   try {
+    const asignaturaData = {
+      nombre: newAsignatura.value.nombre,
+      descripcion: newAsignatura.value.descripcion,
+      curso: { id: newAsignatura.value.cursoId },
+      creditos: newAsignatura.value.creditos,
+      num_horas: newAsignatura.value.num_horas,
+      tipo: newAsignatura.value.tipo,
+    };
+
     if (isEditMode.value) {
-      await axios.put(`/api/cursos/asignaturas/${newAsignatura.value.id}`, {
-        nombre: newAsignatura.value.nombre,
-        descripcion: newAsignatura.value.descripcion,
-        curso: { id: newAsignatura.value.cursoId },
-        creditos: newAsignatura.value.creditos,
-        num_horas: newAsignatura.value.num_horas,
-        tipo: newAsignatura.value.tipo,
-      });
+      await axios.put(
+        `/api/cursos/actualizarAsignatura/${newAsignatura.value.id}`,
+        asignaturaData
+      );
       toast.success("Asignatura actualizada con éxito");
     } else {
-      await axios.post("/api/cursos/agregarAsignatura", {
-        nombre: newAsignatura.value.nombre,
-        descripcion: newAsignatura.value.descripcion,
-        curso: { id: newAsignatura.value.cursoId },
-        creditos: newAsignatura.value.creditos,
-        num_horas: newAsignatura.value.num_horas,
-        tipo: newAsignatura.value.tipo,
-      });
+      await axios.post("/api/cursos/agregarAsignatura", asignaturaData);
       toast.success("Asignatura creada con éxito");
     }
-    router.push("/asignaturas");
+    router.back();
   } catch (error) {
-    toast.error("Error saving asignatura:", error);
+    console.error("Error saving asignatura:", error);
   }
 };
 
 const goToAsignaturas = () => {
-  router.push("/asignaturas");
+  router.back();
 };
 
 onMounted(() => {
   fetchCursos();
   const id = route.params.id;
+  const cursoId = route.query.cursoId;
+  const cursoEditable = route.query.cursoEditable === "true"; // Leer el parámetro cursoEditable
+
   if (id) {
     isEditMode.value = true;
     fetchAsignatura(id);
+    isSelectDisabled.value = !cursoEditable; // Ajustar el estado del select basado en el parámetro
+  } else {
+    isEditMode.value = false;
+    isSelectDisabled.value = !cursoEditable; // Ajustar el estado del select basado en el parámetro
+    if (cursoId) {
+      newAsignatura.value.cursoId = cursoId;
+    }
   }
 });
 </script>
@@ -200,6 +217,10 @@ textarea:focus,
 select:focus {
   border-color: #4caf50;
   outline: none;
+}
+
+input[type="number"] {
+  text-align: right;
 }
 
 .button-group {
