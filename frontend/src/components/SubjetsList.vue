@@ -58,7 +58,7 @@
                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
               </svg>
             </button>
-            <button class="btn btndelete" @click="deleteAsignatura(asignatura.id)" title="borrar">
+            <button class="btn btndelete" @click="openDeleteModal(asignatura.id)" title="borrar">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#FFFFFF"
                 fill="none">
                 <path
@@ -87,6 +87,14 @@
       </div>
     </div>
     <div v-else>No hay asignaturas disponibles.</div>
+
+    <div v-if="deleteModalVisible" class="modal-overlay">
+      <div class="modal">
+        <p>¿Estás seguro de que deseas eliminar esta asignatura?</p>
+        <button @click="deleteAsignatura()">Sí, eliminar</button>
+        <button @click="deleteModalVisible = false">Cancelar</button>
+      </div>
+    </div>
 
     <div v-if="modalVisible" class="modal-overlay">
       <div class="modal-content">
@@ -117,8 +125,10 @@ import { useToast } from 'vue-toast-notification';
 
 const asignaturas = ref([]);
 const modalVisible = ref(false);
+const deleteModalVisible = ref(false);
 const selectedAsignatura = ref(null);
 const search = ref('');
+const asignaturaToDelete = ref(null);
 const router = useRouter();
 const toast = useToast();
 
@@ -130,7 +140,6 @@ const fetchAsignaturas = async () => {
     console.error('Error fetching asignaturas:', error);
   }
 };
-
 const filteredAsignaturas = computed(() => {
   if (search.value) {
     return asignaturas.value.filter(asignatura =>
@@ -176,19 +185,23 @@ const applyFilter = (filter) => {
   }
 };
 
-
-const deleteAsignatura = async (id) => {
+const deleteAsignatura = async () => {
   try {
-    const confirmed = confirm('¿Estás seguro de que deseas eliminar esta asignatura?');
-    if (confirmed) {
-      await axios.delete(`/api/cursos/borrarAsignatura/${id}`);
+    if (asignaturaToDelete.value) {
+      await axios.delete(`/api/cursos/borrarAsignatura/${asignaturaToDelete.value}`);
       toast.success('Asignatura eliminada con éxito');
       await fetchAsignaturas();
+      deleteModalVisible.value = false;
     }
   } catch (error) {
     toast.error('Error eliminando la asignatura');
     console.error('Error deleting asignatura:', error);
   }
+};
+
+const openDeleteModal = (id) => {
+  asignaturaToDelete.value = id;
+  deleteModalVisible.value = true;
 };
 
 const showDetails = (asignatura) => {
@@ -197,11 +210,11 @@ const showDetails = (asignatura) => {
 };
 
 const goToCreateAsignatura = () => {
-  router.push('/asignatura-form');
+  router.push({ path: `/asignatura-form`, query: { cursoEditable: true } });
 };
 
 const goToEditAsignatura = (id) => {
-  router.push(`/asignatura-form/${id}`);
+  router.push({ path: `/asignatura-form/${id}`, query: { cursoEditable: true } });
 };
 
 onMounted(() => {
@@ -233,8 +246,6 @@ input[type=text] {
   transition: .10s ease;
   height: 30px;
 }
-
-
 
 .btndelete {
   background-color: #ff4d4d;
@@ -343,6 +354,31 @@ input[type=text] {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.modal button:first-of-type {
+  background-color: #ff5f5f;
+  color: white;
+}
+
+.modal button:last-of-type {
+  background-color: #ddd;
 }
 
 .modal-content {

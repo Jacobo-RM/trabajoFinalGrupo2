@@ -59,8 +59,8 @@ const curso = ref({
 });
 
 const route = useRoute();
-const router = useRouter();
 const isEditMode = ref(false);
+const router = useRouter();
 const toast = useToast();
 
 const fetchCurso = async (id) => {
@@ -68,40 +68,40 @@ const fetchCurso = async (id) => {
     const response = await axios.get(`/api/cursos/${id}`);
     curso.value = response.data;
   } catch (error) {
-    console.error("Error fetching curso:", error);
+    console.error('Error fetching curso:', error);
   }
 };
 
 const submitForm = async () => {
   try {
     if (isEditMode.value) {
-      await axios.put(
-        `/api/cursos/actualizarCurso/${route.params.id}`,
-        curso.value
-      );
+      await axios.put(`/api/cursos/actualizarCurso/${curso.value.id}`, curso.value);
       toast.success("Curso actualizado exitosamente");
     } else {
-      await axios.post("/api/cursos/agregarCurso", curso.value);
+      await axios.post('/api/cursos/agregarCurso', curso.value);
       toast.success("Curso agregado exitosamente");
     }
-    router.push("/course-list");
+    goToCursos();
   } catch (error) {
-    toast.error("Error guardando el curso");
-    console.error("Error saving curso:", error);
+    console.error('Error saving curso:', error);
   }
 };
+
 
 const goToCursos = () => {
   router.push("/course-list");
 };
 
 onMounted(() => {
-  if (route.params.id) {
+  const cursoId = route.params.id;
+  if (cursoId) {
     isEditMode.value = true;
-    fetchCurso(route.params.id);
+    fetchCurso(cursoId);
   }
 });
+
 </script>
+
 
 <style scoped>
 .addForm {
