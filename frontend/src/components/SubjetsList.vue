@@ -1,48 +1,43 @@
 <template>
   <div>
-    <div class="addBtn">
-      <button
-        class="aniadir"
-        @click="goToCreateAsignatura"
-        title="Crear nueva asignatura"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="50"
-          height="24"
-          color="#FFFFFF"
-          fill="none"
-        >
-          <path
-            d="M14.0022 4.5C14.3777 4.16667 14.6984 4 15.0682 4C15.7664 4 16.2898 4.59409 17.3368 5.78228L19.9115 8.70448C21.3038 10.2847 22 11.0747 22 12C22 12.9253 21.3038 13.7153 19.9115 15.2955L17.3368 18.2177C16.2898 19.4059 15.7664 20 15.0682 20C14.6984 20 14.3777 19.8333 14.0022 19.5"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-          />
-          <path
-            d="M7 5.4398C7.86196 4.47993 8.35392 4 8.98862 4C9.69478 4 10.2243 4.59409 11.2832 5.78228L13.8875 8.70448C15.2959 10.2847 16 11.0747 16 12C16 12.9253 15.2959 13.7153 13.8876 15.2955L11.2832 18.2177C10.2243 19.4059 9.69478 20 8.98862 20C8.35392 20 7.86196 19.5201 7 18.5602"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-          />
-          <path
-            d="M5.5 15.5L5.5 8.5M2 12H9"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-          />
-        </svg>
-      </button>
+    <div class="bodySuperior">
+      <div class="buscadorYfiltros">
+        <div class="buscador">
+          <input type="text" name="search" placeholder="Buscar asignatura" class="input" v-model="search">
+        </div>
+        <label class="burger" for="burger">
+          <input type="checkbox" id="burger">
+          <span></span>
+          <span></span>
+          <span></span>
+          <div class="dropdown-content">
+            <a href="#" @click="applyFilter('alfabeticamente')">Ordenar Alfabéticamente</a>
+            <a href="#" @click="applyFilter('obligatorias')">Asignaturas obligatorias</a>
+            <a href="#" @click="applyFilter('opcionales')">Asignaturas opcionales</a>
+            <a href="#" @click="applyFilter('creditos')">Número de créditos</a>
+            <a href="#" @click="applyFilter('reset')">Resetear filtros</a>
+          </div>
+        </label>
+      </div>
+      <div class="addBtn">
+        <button class="aniadir" @click="goToCreateAsignatura" title="Crear nueva asignatura">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="24" color="#FFFFFF"
+            fill="none">
+            <path
+              d="M14.0022 4.5C14.3777 4.16667 14.6984 4 15.0682 4C15.7664 4 16.2898 4.59409 17.3368 5.78228L19.9115 8.70448C21.3038 10.2847 22 11.0747 22 12C22 12.9253 21.3038 13.7153 19.9115 15.2955L17.3368 18.2177C16.2898 19.4059 15.7664 20 15.0682 20C14.6984 20 14.3777 19.8333 14.0022 19.5"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <path
+              d="M7 5.4398C7.86196 4.47993 8.35392 4 8.98862 4C9.69478 4 10.2243 4.59409 11.2832 5.78228L13.8875 8.70448C15.2959 10.2847 16 11.0747 16 12C16 12.9253 15.2959 13.7153 13.8876 15.2955L11.2832 18.2177C10.2243 19.4059 9.69478 20 8.98862 20C8.35392 20 7.86196 19.5201 7 18.5602"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M5.5 15.5L5.5 8.5M2 12H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <div v-if="asignaturas.length" class="cards-container">
-      <div v-for="asignatura in asignaturas" :key="asignatura.id" class="card">
-        <img
-          src="../../public/CICHD2.png"
-          alt="Imagen de la asignatura"
-          class="card-img-top"
-        />
+    <div v-if="filteredAsignaturas.length" class="cards-container">
+      <div v-for="asignatura in filteredAsignaturas" :key="asignatura.id" class="card">
+        <img src="../../public/CICHD2.png" alt="Imagen de la asignatura" class="card-img-top" />
         <div class="card-body">
           <p class="card-title">
             {{ asignatura.nombre }}
@@ -189,26 +184,72 @@
     </div>
   </div>
 </template>
+
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
-import { useToast } from "vue-toast-notification";
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toast-notification';
 
 const asignaturas = ref([]);
 const modalVisible = ref(false);
 const deleteModalVisible = ref(false);
 const selectedAsignatura = ref(null);
+const search = ref('');
 const asignaturaToDelete = ref(null);
 const router = useRouter();
 const toast = useToast();
 
 const fetchAsignaturas = async () => {
   try {
-    const response = await axios.get("/api/cursos/asignaturas");
+    const response = await axios.get('/api/cursos/asignaturas');
     asignaturas.value = response.data;
   } catch (error) {
-    console.error("Error fetching asignaturas:", error);
+    console.error('Error fetching asignaturas:', error);
+  }
+};
+const filteredAsignaturas = computed(() => {
+  if (search.value) {
+    return asignaturas.value.filter(asignatura =>
+      asignatura.nombre.toLowerCase().includes(search.value.toLowerCase())
+    );
+  }
+  return asignaturas.value;
+});
+
+const sortAsignaturasAlphabetically = () => {
+  asignaturas.value.sort((a, b) => a.nombre.localeCompare(b.nombre));
+};
+
+const filterAsignaturasObligatorias = () => {
+  asignaturas.value = asignaturas.value.filter(asignatura => asignatura.tipo === 'OBLIGATORIA');
+};
+
+const filterNumeroCreditos = () => {
+  asignaturas.value = asignaturas.value
+    .filter(asignatura => asignatura.creditos)
+    .sort((a, b) => b.creditos - a.creditos);
+};
+
+const filterAsignaturasOpcionales = () => {
+  asignaturas.value = asignaturas.value.filter(asignatura => asignatura.tipo === 'OPCIONAL');
+};
+
+const resetFilters = () => {
+  fetchAsignaturas();
+};
+
+const applyFilter = (filter) => {
+  if (filter === 'alfabeticamente') {
+    sortAsignaturasAlphabetically();
+  } else if (filter === 'obligatorias') {
+    filterAsignaturasObligatorias();
+  } else if (filter === 'opcionales') {
+    filterAsignaturasOpcionales();
+  } else if (filter === 'creditos') {
+    filterNumeroCreditos();
+  } else if (filter === 'reset') {
+    resetFilters();
   }
 };
 
@@ -223,8 +264,8 @@ const deleteAsignatura = async () => {
       deleteModalVisible.value = false;
     }
   } catch (error) {
-    toast.error("Error eliminando la asignatura");
-    console.error("Error deleting asignatura:", error);
+    toast.error('Error eliminando la asignatura');
+    console.error('Error deleting asignatura:', error);
   }
 };
 
@@ -274,6 +315,16 @@ th {
   background-color: #f2f2f2;
 }
 
+input[type=text] {
+  border-radius: 4px;
+  outline: 2px solid #3f9fd6;
+  border: none;
+  box-shadow: 0px 10px 20px -18px #3f9fd6;
+  border-bottom: 3px solid #3f9fd6;
+  transition: .10s ease;
+  height: 30px;
+}
+
 .btndelete {
   background-color: #ff4d4d;
   color: white;
@@ -287,10 +338,71 @@ th {
   background-color: #ff1a1a;
 }
 
-.addBtn {
+.burger {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+.burger input {
+  display: none;
+}
+
+.burger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px;
+  background: #969696;
+  transition: 0.3s;
+}
+
+.burger input:checked~span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.burger input:checked~span:nth-child(2) {
+  transform: rotate(45deg) translate(1.5px);
+}
+
+.burger input:checked~span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.burger input:checked~.dropdown-content {
+  display: block;
+}
+
+.bodySuperior {
   display: flex;
-  justify-content: flex-end;
-  padding: 18px;
+  justify-content: space-between;
+  margin: 30px;
+}
+
+.buscadorYfiltros {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .aniadir:hover {
