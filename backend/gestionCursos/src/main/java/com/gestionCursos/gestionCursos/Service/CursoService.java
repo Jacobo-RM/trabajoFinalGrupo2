@@ -20,17 +20,17 @@ public class CursoService {
         this.asignaturaRepository = asignaturaRepository;
     }
 
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public List<Curso> getCursos() {
         return cursoRepository.findAll();
     }
 
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public Curso getCurso(int id) {
         return cursoRepository.findById(id).orElse(null);
     }
 
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public List<Asignatura> getAsignaturas(int id) {
         Curso curso = cursoRepository.findById(id).orElse(null);
         if (curso != null) {
@@ -39,27 +39,25 @@ public class CursoService {
         return null;
     }
 
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public List<Asignatura> getAsignaturas() {
-        return asignaturaRepository.findAll(); 
+        return asignaturaRepository.findAll();
     }
 
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public Asignatura getAsignatura(int id) {
         return asignaturaRepository.findById(id).orElse(null);
     }
-    
+
     @Transactional
     public Curso saveCurso(Curso curso) {
         return cursoRepository.save(curso);
     }
 
-
     @Transactional
     public Asignatura saveAsignatura(Asignatura asignatura) {
         return asignaturaRepository.save(asignatura);
     }
-
 
     @Transactional
     public void agregarAsignaturaACurso(int idCurso, Asignatura asignatura) {
@@ -73,8 +71,6 @@ public class CursoService {
             throw new RuntimeException("Curso no encontrado");
         }
     }
-    
-
 
     @Transactional
     public Asignatura updateAsignatura(Asignatura asignatura) {
@@ -83,7 +79,7 @@ public class CursoService {
         }
         return null;
     }
-    
+
     @Transactional
     public void deleteCurso(int id) {
         cursoRepository.deleteById(id);
@@ -95,7 +91,13 @@ public class CursoService {
         asignaturaRepository.deleteById(id);
     }
 
-
+    @Transactional
+    public Curso updateCurso(Curso curso) {
+        if (cursoRepository.existsById(curso.getId())) {
+            return cursoRepository.save(curso);
+        }
+        return null;
+    }
 
     @Transactional
     public void eliminarAsignaturaDeCurso(int idCurso, int idAsignatura) {
@@ -106,10 +108,4 @@ public class CursoService {
         }
     }
 
-
-
-    
-
-
-    
 }

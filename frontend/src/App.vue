@@ -1,14 +1,13 @@
 <script>
-
 import { ref, onMounted } from "vue";
-import axios from "./axios"; // Importa tu instancia de Axios
+import axios from "./axios";
 import { RouterLink, RouterView } from "vue-router";
 
 const cursos = ref([]);
 
 const fetchCursos = async () => {
   try {
-    const response = await axios.get("/api/cursos/"); // Corregido para coincidir con el endpoint del backend
+    const response = await axios.get("/api/cursos/");
     cursos.value = response.data;
   } catch (error) {
     console.error("Error fetching cursos:", error);
@@ -28,8 +27,7 @@ onMounted(() => {
       </div>
       <div class="rutas">
         <RouterLink to="/" class="ruta">Inicio</RouterLink>
-        <RouterLink to="/CourseList" class="ruta">Cursos</RouterLink>
-        <RouterLink to="/about" class="ruta">About</RouterLink>
+        <RouterLink to="/course-list" class="ruta">Cursos</RouterLink>
         <RouterLink to="/asignaturas" class="ruta">Asignaturas</RouterLink>
       </div>
       <div>
@@ -38,7 +36,9 @@ onMounted(() => {
     </nav>
   </header>
 
-  <RouterView />
+  <main class="main-content">
+    <RouterView />
+  </main>
 </template>
 
 <style scoped>
@@ -46,7 +46,7 @@ header {
   margin: 0;
   background-color: #3f9fd6;
   color: white;
-  padding: 10px;
+  padding: 8px;
 }
 
 nav {
@@ -55,11 +55,27 @@ nav {
   gap: 50px;
   align-items: center;
   height: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #3f9fd6;
+  z-index: 1000;
+}
+
+.main-content {
+  margin-top: 70px;
 }
 
 .rutas {
   display: flex;
   gap: 24px;
+}
+
+.router-link-active {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 26px;
 }
 
 .ruta {
@@ -76,11 +92,8 @@ nav {
 }
 
 .bandera {
-  width: 80px;
-  height: 50px;
-  border-radius: 1000px;
-  filter: drop-shadow(0 0 0.5rem #000000);
-  margin-left: 15px;
+  width: 195px;
+  height: 80px;
 }
 
 .logo {
@@ -90,6 +103,4 @@ nav {
   height: 65px;
   margin-right: 15px;
 }
-
 </style>
-
