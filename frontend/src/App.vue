@@ -92,8 +92,10 @@ nav {
 }
 
 .bandera {
-  width: 195px;
+  width: 165px;
   height: 80px;
+  margin-left: 15px;
+  padding: 5px;
 }
 
 .logo {
@@ -102,5 +104,23 @@ nav {
   width: 130px;
   height: 65px;
   margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 20px;
+    height: auto;
+    padding: 10px;
+    position: relative;
+  }
+
+  .main-content {
+    margin-top: 100px;
+  }
+
+  .bandera, .logo {
+    display: none;
+  }
 }
 </style>
