@@ -1,6 +1,9 @@
 <template>
   <div class="addForm">
     <form @submit.prevent="handleSubmit">
+      <h2>
+        {{ isEditMode ? "Actualizar de asignatura" : "Creación de asignatura" }}
+      </h2>
       <div>
         <label for="nombre">Nombre:</label>
         <input
@@ -20,7 +23,12 @@
       </div>
       <div>
         <label for="curso">Curso:</label>
-        <select id="curso" v-model="newAsignatura.cursoId" :disabled="isSelectDisabled" required>
+        <select
+          id="curso"
+          v-model="newAsignatura.cursoId"
+          :disabled="isSelectDisabled"
+          required
+        >
           <option value="" disabled>Seleccione un curso</option>
           <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
             {{ curso.nombre }}
@@ -116,14 +124,17 @@ const handleSubmit = async () => {
       curso: { id: newAsignatura.value.cursoId },
       creditos: newAsignatura.value.creditos,
       num_horas: newAsignatura.value.num_horas,
-      tipo: newAsignatura.value.tipo
+      tipo: newAsignatura.value.tipo,
     };
 
     if (isEditMode.value) {
-      await axios.put(`/api/cursos/actualizarAsignatura/${newAsignatura.value.id}`, asignaturaData);
+      await axios.put(
+        `/api/cursos/actualizarAsignatura/${newAsignatura.value.id}`,
+        asignaturaData
+      );
       toast.success("Asignatura actualizada con éxito");
     } else {
-      await axios.post('/api/cursos/agregarAsignatura', asignaturaData);
+      await axios.post("/api/cursos/agregarAsignatura", asignaturaData);
       toast.success("Asignatura creada con éxito");
     }
     router.back();
@@ -140,7 +151,7 @@ onMounted(() => {
   fetchCursos();
   const id = route.params.id;
   const cursoId = route.query.cursoId;
-  const cursoEditable = route.query.cursoEditable === 'true'; // Leer el parámetro cursoEditable
+  const cursoEditable = route.query.cursoEditable === "true"; // Leer el parámetro cursoEditable
 
   if (id) {
     isEditMode.value = true;
@@ -155,7 +166,6 @@ onMounted(() => {
   }
 });
 </script>
-
 
 <style scoped>
 .addForm {
@@ -207,6 +217,10 @@ textarea:focus,
 select:focus {
   border-color: #4caf50;
   outline: none;
+}
+
+input[type="number"] {
+  text-align: right;
 }
 
 .button-group {

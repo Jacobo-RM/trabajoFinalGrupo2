@@ -1,6 +1,9 @@
 <template>
   <div class="addForm">
     <form @submit.prevent="submitForm">
+      <h2>
+        {{ isEditMode ? "Actualizar curso" : "Creación de curso" }}
+      </h2>
       <div>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" v-model="curso.nombre" required />
@@ -68,25 +71,27 @@ const fetchCurso = async (id) => {
     const response = await axios.get(`/api/cursos/${id}`);
     curso.value = response.data;
   } catch (error) {
-    console.error('Error fetching curso:', error);
+    console.error("Error fetching curso:", error);
   }
 };
 
 const submitForm = async () => {
   try {
     if (isEditMode.value) {
-      await axios.put(`/api/cursos/actualizarCurso/${curso.value.id}`, curso.value);
+      await axios.put(
+        `/api/cursos/actualizarCurso/${curso.value.id}`,
+        curso.value
+      );
       toast.success("Curso actualizado exitosamente");
     } else {
-      await axios.post('/api/cursos/agregarCurso', curso.value);
+      await axios.post("/api/cursos/agregarCurso", curso.value);
       toast.success("Curso agregado exitosamente");
     }
     goToCursos();
   } catch (error) {
-    console.error('Error saving curso:', error);
+    console.error("Error saving curso:", error);
   }
 };
-
 
 const goToCursos = () => {
   router.push("/course-list");
@@ -99,9 +104,7 @@ onMounted(() => {
     fetchCurso(cursoId);
   }
 });
-
 </script>
-
 
 <style scoped>
 .addForm {
@@ -158,6 +161,10 @@ select:focus {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+input[type="number"] {
+  text-align: right;
 }
 
 button {

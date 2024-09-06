@@ -36,7 +36,9 @@ onMounted(() => {
     </nav>
   </header>
 
-  <RouterView />
+  <main class="main-content">
+    <RouterView />
+  </main>
 </template>
 
 <style scoped>
@@ -53,11 +55,27 @@ nav {
   gap: 50px;
   align-items: center;
   height: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #3f9fd6;
+  z-index: 1000;
+}
+
+.main-content {
+  margin-top: 70px;
 }
 
 .rutas {
   display: flex;
   gap: 24px;
+}
+
+.router-link-active {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 26px;
 }
 
 .ruta {
