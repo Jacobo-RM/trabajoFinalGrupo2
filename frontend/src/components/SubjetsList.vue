@@ -129,6 +129,7 @@ const deleteModalVisible = ref(false);
 const selectedAsignatura = ref(null);
 const search = ref('');
 const asignaturaToDelete = ref(null);
+const asignaturasOriginales = ref([]);
 const router = useRouter();
 const toast = useToast();
 
@@ -136,6 +137,7 @@ const fetchAsignaturas = async () => {
   try {
     const response = await axios.get('/api/cursos/asignaturas');
     asignaturas.value = response.data;
+    asignaturasOriginales.value = [...response.data];
   } catch (error) {
     console.error('Error fetching asignaturas:', error);
   }
@@ -149,27 +151,32 @@ const filteredAsignaturas = computed(() => {
   return asignaturas.value;
 });
 
+const resetFilters = () => {
+  asignaturas.value = [...asignaturasOriginales.value];
+};
+
 const sortAsignaturasAlphabetically = () => {
+  resetFilters();
   asignaturas.value.sort((a, b) => a.nombre.localeCompare(b.nombre));
 };
 
 const filterAsignaturasObligatorias = () => {
+  resetFilters();
   asignaturas.value = asignaturas.value.filter(asignatura => asignatura.tipo === 'OBLIGATORIA');
 };
 
 const filterNumeroCreditos = () => {
+  resetFilters();
   asignaturas.value = asignaturas.value
     .filter(asignatura => asignatura.creditos)
     .sort((a, b) => b.creditos - a.creditos);
 };
 
 const filterAsignaturasOpcionales = () => {
+  resetFilters()
   asignaturas.value = asignaturas.value.filter(asignatura => asignatura.tipo === 'OPCIONAL');
 };
 
-const resetFilters = () => {
-  fetchAsignaturas();
-};
 
 const applyFilter = (filter) => {
   if (filter === 'alfabeticamente') {

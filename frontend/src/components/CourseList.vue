@@ -12,6 +12,7 @@
           <span></span>
           <div class="dropdown-content">
             <a href="#" @click="applyFilter('alfabeticamente')">Ordenar Alfabéticamente</a>
+            <a href="#" @click="applyFilter('reset')">Resetear Filtros</a>
           </div>
         </label>
       </div>
@@ -105,6 +106,7 @@ const cursos = ref([]);
 const modalVisible = ref(false);
 const cursoIdBorrar = ref(null);
 const router = useRouter();
+const cursosOriginales = ref([]);
 const toast = useToast();
 const search = ref('');
 
@@ -112,6 +114,7 @@ const fetchCursos = async () => {
   try {
     const response = await axios.get("/api/cursos/");
     cursos.value = response.data;
+    cursosOriginales.value = [...response.data];
   } catch (error) {
     console.error("Error fetching cursos:", error);
   }
@@ -137,14 +140,21 @@ const deleteCurso = async (id) => {
   }
 };
 
-
-const filterPrecioDescendente = () => {
-  cursos.value.sort((a, b) => b.precio - a.precio);
+const sortAsignaturasAlphabetically = () => {
+  resetFilters();
+  cursos.value.sort((a, b) => a.nombre.localeCompare(b.nombre));
 };
+
+const resetFilters = () => {
+  cursos.value = [...cursosOriginales.value];
+};
+
 
 const applyFilter = (filter) => {
   if (filter === 'alfabeticamente') {
     sortAsignaturasAlphabetically();
+  }else if (filter === 'reset') {
+    resetFilters();
   }
 };
 
