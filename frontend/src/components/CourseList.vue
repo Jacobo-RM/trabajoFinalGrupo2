@@ -562,4 +562,34 @@ input[type="text"] {
 .modal-button:last-of-type:hover {
   background-color: #ccc;
 }
+
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .bodySuperior {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .aniadir {
+    margin-top: 20px;
+    align-items: center;
+  }
+
+
+  .burger{
+    order:1;    
+  }
+
+  .buscador{
+    order:2;
+  }
+}
 </style>
