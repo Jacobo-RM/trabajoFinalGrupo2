@@ -2,7 +2,7 @@
   <div class="addForm">
     <form @submit.prevent="handleSubmit">
       <h2>
-        {{ isEditMode ? "Actualizar de asignatura" : "Creación de asignatura" }}
+        {{ isEditMode ? "Actualizar asignatura" : "Creación de asignatura" }}
       </h2>
       <div>
         <label for="nombre">Nombre:</label>
