@@ -36,11 +36,10 @@ const router = createRouter({
       component: CourseForm,
     },
     {
-      path: '/curso/:id',
-      name: 'CourseDetails',
+      path: "/curso/:id",
+      name: "CourseDetails",
       component: CourseDetails,
       props: true,
-
     },
     {
       path: "/asignatura-form",
