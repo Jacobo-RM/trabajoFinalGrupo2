@@ -30,7 +30,7 @@
         <button
           class="aniadir"
           @click="goToCreateAsignatura"
-          title="Crear nueva asignatura en este curso"
+          title="Añadir asignatura al curso"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +274,7 @@ const confirmDelete = async (id) => {
   if (confirmed) {
     try {
       await axios.delete(`/api/cursos/borrarAsignatura/${id}`);
-      await fetchCursoDetalles(curso.value.id); // Recarga las asignaturas
+      await fetchCursoDetalles(curso.value.id); 
     } catch (error) {
       console.error("Error deleting asignatura:", error);
     }
