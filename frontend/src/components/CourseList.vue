@@ -17,7 +17,9 @@
           <span></span>
           <span></span>
           <div class="dropdown-content">
-            <a href="#" @click="applyFilter('alfabeticamente')">Ordenar Alfabéticamente</a>
+            <a href="#" @click="applyFilter('alfabeticamente')"
+              >Ordenar Alfabéticamente</a
+            >
             <a href="#" @click="applyFilter('reset')">Resetear Filtros</a>
           </div>
         </label>
@@ -233,6 +235,7 @@ const deleteCurso = async (id) => {
     await axios.delete(`/api/cursos/borrarCurso/${id}`);
     cursos.value = cursos.value.filter((curso) => curso.id !== id);
     closeModal();
+    location.reload();
     toast.success("Curso eliminado exitosamente");
   } catch (error) {
     toast.error("Error borrando el curso");
@@ -248,11 +251,10 @@ const resetFilters = () => {
   cursos.value = [...cursosOriginales.value];
 };
 
-
 const applyFilter = (filter) => {
   if (filter === "alfabeticamente") {
     sortAsignaturasAlphabetically();
-  }else if (filter === 'reset') {
+  } else if (filter === "reset") {
     resetFilters();
   }
 };
@@ -583,13 +585,12 @@ input[type="text"] {
     align-items: center;
   }
 
-
-  .burger{
-    order:1;    
+  .burger {
+    order: 1;
   }
 
-  .buscador{
-    order:2;
+  .buscador {
+    order: 2;
   }
 }
 </style>

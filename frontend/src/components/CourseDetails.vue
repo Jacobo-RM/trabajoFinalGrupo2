@@ -274,7 +274,8 @@ const confirmDelete = async (id) => {
   if (confirmed) {
     try {
       await axios.delete(`/api/cursos/borrarAsignatura/${id}`);
-      await fetchCursoDetalles(curso.value.id); 
+      await fetchCursoDetalles(curso.value.id);
+      location.reload();
     } catch (error) {
       console.error("Error deleting asignatura:", error);
     }

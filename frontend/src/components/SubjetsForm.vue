@@ -86,7 +86,7 @@ const newAsignatura = ref({
 
 const cursos = ref([]);
 const isEditMode = ref(false);
-const isSelectDisabled = ref(false); // Nueva variable para manejar el estado del select
+const isSelectDisabled = ref(false);
 const route = useRoute();
 const router = useRouter();
 
