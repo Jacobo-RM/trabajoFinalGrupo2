@@ -1,18 +1,14 @@
 describe('CourseList.vue', () => {
   beforeEach(() => {
-    // Visitar la página de la lista de cursos antes de cada test
     cy.visit('/course-list');
   });
 
-  it('should display the list of courses', () => {
-    // Verificar que la lista de cursos se muestra correctamente
+  it('Verificar que la lista de cursos se muestra correctamente', () => {
     cy.get('.cards-container .card').should('have.length.greaterThan', 0);
   });
 
-  it('should filter courses based on search input', () => {
-    // Escribir en el campo de búsqueda
+  it('Debería funcionar el compo de búsqueda y filtros', () => {
     cy.get('input[name="search"]').type('Matemáticas');
-    // Verificar que los cursos filtrados se muestran correctamente
     cy.get('.cards-container .card').each(($el) => {
       cy.wrap($el).contains('Matemáticas');
     });
@@ -20,24 +16,18 @@ describe('CourseList.vue', () => {
 
 
 
-  it('should navigate to add course form', () => {
-    // Hacer clic en el botón de agregar curso
+  it('Navegar a course form', () => {
     cy.get('.addBtn .aniadir').click();
-    // Verificar que la URL cambió a la ruta del formulario de agregar curso
     cy.url().should('include', '/curso-form');
   });
 
-  it('should navigate to edit course form', () => {
-    // Hacer clic en el botón de editar del primer curso
+  it('Navegar a edit course form', () => {
     cy.get('.cards-container .card').first().find('.btn.btn-primary').click();
-    // Verificar que la URL cambió a la ruta del formulario de editar curso
     cy.url().should('include', '/curso-form/');
   });
 
-  it('should navigate to course details', () => {
-    // Hacer clic en el botón de ver detalles del primer curso
+  it('Navegar a course details', () => {
     cy.get('.cards-container .card').first().find('.btn.btn-secondary').click();
-    // Verificar que la URL cambió a la ruta de detalles del curso
     cy.url().should('include', '/curso/');
   });
 

@@ -1,11 +1,10 @@
 describe('SubjetsForm.vue', () => {
     beforeEach(() => {
-      // Visitar el formulario de asignaturas antes de cada prueba
       cy.visit('/asignatura-form');
     });
   
-    it('should display the form correctly', () => {
-      // Verificar que los elementos del formulario están presentes
+    it('Verificar que los elementos del formulario están presentes', () => {
+    
       cy.get('#nombre').should('exist');
       cy.get('#descripcion').should('exist');
       cy.get('#curso').should('exist');
@@ -18,10 +17,9 @@ describe('SubjetsForm.vue', () => {
   
  
   
-    it('should handle the back button correctly', () => {
-      // Hacer clic en el botón de volver y verificar la navegación
+    it('Hacer clic en el botón de volver y verificar la navegación', () => {
       cy.get('button[type="button"]').click();
-      cy.url().should('not.include', '/asignatura-form'); // Verificar redirección o navegación correcta
+      cy.url().should('not.include', '/asignatura-form'); 
     });
   });
   
